@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🇫🇷 南法 17天14夜 v3</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ni:#2B8FBF;--nil:#EAF6FB;--ar:#E8734A;--arl:#FEF0EB;--ax:#8B5CF6;--axl:#F3EFFE;--gr:#94A3B8;--grl:#F1F5F9;--ok:#10B981;--bg:#FAFAFA;--cd:#FFFFFF;--tx:#1E293B;--t2:#94A3B8;--gd:#1E293B;--bd:#E2E8F0;--sh:none}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;padding-bottom:72px;letter-spacing:-.01em}
+.hero{background:var(--cd);color:var(--tx);padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--bd)}
+.hero h1{font-family:'DM Serif Display',Georgia,serif;font-size:1.7em;font-weight:400;letter-spacing:.5px;color:var(--tx)}.hero .sub{font-size:.85em;color:var(--t2);margin-top:4px;font-weight:500;letter-spacing:.02em}.hero .dt{font-size:.78em;color:var(--ni);margin-top:8px;font-weight:600;letter-spacing:.05em}
+.tabs{display:flex;background:var(--cd);position:sticky;top:0;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--bd)}.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:10px 14px;font-size:.75em;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;color:var(--t2);transition:.2s;letter-spacing:.02em;text-transform:uppercase}.tab.active{border-bottom-color:var(--tx);color:var(--tx)}
+.ct{max-width:600px;margin:0 auto;padding:14px}
+.card{background:var(--cd);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid var(--bd)}
+.card h3{font-size:.88em;font-weight:700;margin-bottom:8px}
+.ir{display:flex;justify-content:space-between;padding:5px 0;font-size:.82em;border-bottom:1px solid #F0F2F5}.ir:last-child{border-bottom:none}
+.il{color:var(--t2)}.iv{font-weight:600;text-align:right;max-width:60%;color:var(--tx)}
+.bg{display:inline-block;padding:2px 7px;border-radius:9px;font-size:.72em;font-weight:700}.bg-ok{background:#E8F5E0;color:var(--ok)}
+.dc{background:var(--cd);border-radius:10px;margin-bottom:12px;border:1px solid var(--bd);overflow:hidden}
+.dh{padding:12px 14px;display:flex;align-items:center;cursor:pointer;gap:6px}
+.dh.nice{background:var(--nil);border-left:3px solid var(--ni)}.dh.arles{background:var(--arl);border-left:3px solid var(--ar)}.dh.aix{background:var(--axl);border-left:3px solid var(--ax)}.dh.travel{background:var(--grl);border-left:3px solid var(--gr)}
+.dn{font-size:.72em;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--t2)}.dd{font-size:.72em;color:var(--t2)}.dt2{font-size:.84em;font-weight:600;flex:1}
+.dp{font-size:.7em;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--grl);color:var(--t2)}.dp.done{background:#D1FAE5;color:#059669}
+.db{padding:0 14px 14px;display:none}.db.open{display:block}
+.chv{transition:.3s;font-size:.75em}.chv.open{transform:rotate(180deg)}
+.ac{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #F0F2F5}.ac:last-child{border-bottom:none}
+.ac input[type=checkbox]{width:16px;height:16px;margin-top:3px;accent-color:var(--ok);flex-shrink:0;border-radius:3px}
+.acc{flex:1}.act{font-size:.72em;font-weight:600;color:var(--t2);margin-bottom:1px;letter-spacing:.02em}.acx{font-size:.82em;font-weight:500}.acx.ck{text-decoration:line-through;color:var(--t2);opacity:.5}
+.acn{font-size:.72em;color:var(--t2);margin-top:4px;padding:6px 10px;background:var(--grl);border-radius:6px;border-left:2px solid var(--bd)}
+.tg{display:inline-block;font-size:.64em;padding:2px 6px;border-radius:4px;margin-right:3px;font-weight:600;letter-spacing:.01em}
+.tf{background:#D1FAE5;color:#059669}.ts{background:var(--nil);color:var(--ni)}.tt{background:#FEF3C7;color:#D97706}.th{background:var(--nil);color:var(--ni)}.tp{background:#FCE7F3;color:#DB2777}.tsh{background:var(--arl);color:var(--ar)}
+.dml{color:var(--ni);text-decoration:none;font-size:.7em;margin-left:3px;font-weight:500}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--cd);display:flex;justify-content:space-around;padding:6px 0;z-index:100;border-top:1px solid var(--bd)}
+.nb{text-align:center;font-size:.6em;font-weight:600;color:var(--t2);cursor:pointer;padding:3px 6px;letter-spacing:.02em}.nb.active{color:var(--tx)}.nb .ic{font-size:1.3em;display:block;margin-bottom:2px}
+.view{display:none}.view.active{display:block}
+.kn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.kni{background:var(--cd);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--bd)}.kni .n{font-size:1.3em;font-weight:800}.kni .l{font-size:.7em;color:var(--t2);margin-top:2px;font-weight:500;letter-spacing:.03em;text-transform:uppercase}
+.et{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.etb{padding:6px 14px;border-radius:20px;font-size:.78em;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:var(--cd);transition:.2s;color:var(--t2)}
+.etb.active{border-color:var(--ni);background:var(--nil);color:var(--ni)}
+.etb[data-r=arles].active{border-color:var(--ar);background:var(--arl);color:var(--ar)}
+.etb[data-r=aix].active{border-color:var(--ax);background:var(--axl);color:var(--ax)}
+.ec{background:var(--cd);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid var(--bd);transition:opacity .3s,transform .3s}
+.ec.visited{opacity:.45;transform:scale(.98)}.ec.visited h4{text-decoration:line-through;color:var(--t2)}
+.ec h4{font-size:.85em;font-weight:600;margin-bottom:3px}
+.ety{font-size:.68em;font-weight:600;display:inline-block;padding:2px 8px;border-radius:4px;margin-bottom:6px;letter-spacing:.02em}
+.ecd{font-size:.8em;color:var(--t2);margin-bottom:4px;line-height:1.5}
+.ect{font-size:.74em;padding:6px 10px;background:var(--grl);border-radius:6px;margin-top:6px;color:var(--t2);border-left:2px solid var(--bd)}
+.ec-addr{font-size:.72em;color:var(--t2);margin-top:4px}.ec-addr a{color:var(--ni);text-decoration:none;font-weight:600}.ec-addr a:active{opacity:.6}
+.ec-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.ec-btn{font-size:.72em;font-weight:700;padding:5px 10px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;transition:.2s}
+.ec-btn:active{transform:scale(.95)}
+.ec-btn-add{background:var(--nil);color:var(--ni)}.ec-btn-add:hover{background:#D5EEFC}
+.ec-btn-visit{background:var(--grl);color:var(--t2)}.ec-btn-visit:hover{background:#E2E8F0}
+.ec-btn-visit.done{background:#D1FAE5;color:#059669}
+.hide-visited .ec.visited,.hide-visited .fest-card.visited{display:none}
+.ex-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.ex-toggle{font-size:.74em;font-weight:600;padding:5px 12px;border-radius:20px;border:1.5px solid var(--bd);background:var(--cd);cursor:pointer;color:var(--t2);transition:.2s}.ex-toggle.active{border-color:var(--ok);background:#D1FAE5;color:#059669}
+.ex-count{font-size:.72em;color:var(--t2)}
+.day-picker-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.day-picker-overlay.show{display:flex}
+.day-picker{background:var(--cd);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:600px;max-height:60vh;overflow-y:auto}
+.day-picker h3{font-size:.92em;font-weight:700;margin-bottom:4px}.day-picker .dp-sub{font-size:.78em;color:var(--t2);margin-bottom:12px}
+.day-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.dp-day{padding:10px 4px;border-radius:8px;text-align:center;cursor:pointer;border:1.5px solid var(--bd);transition:.2s;font-size:.78em}
+.dp-day:hover{border-color:var(--ni);background:var(--nil)}
+.dp-day:active{transform:scale(.95)}
+.dp-day .dp-n{font-weight:800;font-size:1.1em}.dp-day .dp-d{font-size:.8em;color:var(--t2);margin-top:2px}
+.dp-day.nice{border-color:var(--nil);background:var(--nil)}.dp-day.arles{border-color:var(--arl);background:var(--arl)}.dp-day.aix{border-color:var(--axl);background:var(--axl)}.dp-day.travel{border-color:var(--grl);background:var(--grl)}
+.dp-cancel{display:block;width:100%;padding:12px;border:none;border-radius:8px;background:var(--grl);color:var(--t2);font-size:.85em;font-weight:600;cursor:pointer;margin-top:10px;font-family:inherit}
+.fest-card{background:var(--arl);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid #F5DDD0;border-left:3px solid var(--ar)}
+.fest-card h4{font-size:.85em;font-weight:600;margin-bottom:4px}.fest-card p{font-size:.8em;color:var(--t2);line-height:1.5}
+.fest-tag{display:inline-block;font-size:.64em;padding:2px 8px;border-radius:4px;background:var(--arl);color:var(--ar);font-weight:600;margin-bottom:6px;letter-spacing:.02em}
+.ye{background:#D1FAE5;color:#059669}.ysh{background:var(--arl);color:var(--ar)}.yp{background:var(--nil);color:var(--ni)}.yh{background:var(--nil);color:var(--ni)}.ym{background:var(--axl);color:var(--ax)}.yfd{background:#FEF3C7;color:#D97706}
+.sbtn{display:block;width:100%;padding:12px;border:none;border-radius:8px;background:var(--tx);color:#fff;font-size:.85em;font-weight:600;cursor:pointer;margin-bottom:10px;font-family:inherit;letter-spacing:.02em}.sbtn:active{opacity:.8}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--tx);color:#fff;padding:8px 18px;border-radius:8px;font-size:.8em;font-weight:600;z-index:200;display:none}
+.toast.show{display:block;animation:fio 2s}@keyframes fio{0%{opacity:0}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.pk-c{margin-bottom:14px}.pk-c h4{font-size:.82em;font-weight:600;margin-bottom:6px;padding:6px 10px;background:var(--grl);border-radius:6px;color:var(--tx)}
+.pk-i{display:flex;align-items:center;gap:7px;padding:6px 10px;font-size:.83em}.pk-i input{accent-color:var(--ok)}.pk-i.ck span{text-decoration:line-through;color:#BDC3C7}
+#map{width:100%;height:calc(100vh - 140px);border-radius:0}
+.map-legend{position:absolute;bottom:20px;left:10px;background:var(--cd);padding:10px;border-radius:8px;font-size:.75em;z-index:1000;border:1px solid var(--bd)}
+.map-legend div{margin:3px 0;display:flex;align-items:center;gap:6px;color:var(--tx)}
+.ml-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.guide-section{margin-bottom:20px}
+.guide-section h3{font-size:.88em;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bd);color:var(--tx);letter-spacing:.01em}
+.guide-item{background:var(--cd);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid var(--bd)}
+.guide-item h4{font-size:.83em;font-weight:600;margin-bottom:4px}
+.guide-item p{font-size:.8em;color:var(--t2);line-height:1.55}
+.guide-item .warn{color:var(--ar);font-weight:600}
+.phrase-table{width:100%;border-collapse:collapse;font-size:.82em}
+.phrase-table td{padding:6px 8px;border-bottom:1px solid #F0F2F5}
+.phrase-table td:first-child{font-weight:600;width:40%;color:var(--tx)}
+.phrase-table td:last-child{color:var(--t2)}
+.note-add-btn{width:100%;padding:10px;border:1.5px dashed var(--bd);border-radius:8px;background:transparent;color:var(--t2);font-size:.82em;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}.note-add-btn:hover{border-color:var(--ni);color:var(--ni)}
+.note-card{background:var(--cd);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:8px;position:relative}
+.note-card textarea{width:100%;border:none;outline:none;font-family:inherit;font-size:.82em;color:var(--tx);resize:vertical;min-height:60px;line-height:1.5;background:transparent}
+.note-card textarea::placeholder{color:var(--t2)}
+.note-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid var(--bd)}
+.note-time{font-size:.68em;color:var(--t2)}.note-del{font-size:.7em;color:var(--t2);cursor:pointer;border:none;background:none;font-family:inherit;padding:2px 6px;border-radius:4px}.note-del:hover{color:#EF4444;background:#FEF2F2}
+@media(max-width:400px){.hero h1{font-size:1.3em}.tab{padding:8px 10px;font-size:.7em}}
+.drv-card{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1px solid #FDE68A;border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.drv-hd{font-size:.74em;font-weight:700;color:#92400E;margin-bottom:5px}
+.drv-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:.75em;color:var(--t2)}
+.drv-meta span{display:flex;align-items:center;gap:3px}.drv-meta strong{color:var(--tx)}
+.drv-fuel{font-size:.72em;color:#059669;margin-top:5px;font-weight:500}
+.drv-warn{font-size:.72em;margin-top:5px;padding:5px 8px;background:#FEF2F2;border-radius:6px;color:#DC2626;border-left:2px solid #FCA5A5;line-height:1.4}
+.diff-bar{display:inline-flex;gap:2px;vertical-align:middle}
+.diff-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.diff-on{background:#E8734A}.diff-off{background:#E2E8F0}
+.nw-box{background:#FEF0EB;border:1.5px solid #E8734A;border-radius:10px;padding:14px;margin-bottom:16px}
+.nw-box h3{font-size:.88em;font-weight:700;margin-bottom:10px;color:var(--ar)}
+.nw-table{width:100%;border-collapse:collapse;font-size:.77em;margin-bottom:4px}
+.nw-table th{text-align:left;padding:5px 6px;border-bottom:2px solid var(--bd);color:var(--t2);font-size:.9em}
+.nw-table td{padding:6px 6px;border-bottom:1px solid #F0F2F5;vertical-align:top;line-height:1.4}
+.nw-table td:first-child{font-weight:600;color:var(--tx);white-space:nowrap}
+.nw-table tr:last-child td{border-bottom:none}
+.disc-box{background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:8px;padding:12px;margin-bottom:8px}
+.disc-box h4{font-size:.82em;font-weight:700;color:#1D4ED8;margin-bottom:6px}
+.opt-card{background:#fff;border:1px solid var(--bd);border-radius:6px;padding:8px 10px;margin-top:6px}
+.opt-card h5{font-size:.77em;font-weight:700;margin-bottom:2px}
+.opt-card p{font-size:.75em;color:var(--t2);line-height:1.4}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>Sud de la France</h1>
+<div class="sub">南法蔚藍海岸 + 普羅旺斯 ｜ 17 天 14 夜</div>
+<div style="font-size:.68em;color:var(--ar);font-weight:700;margin-top:4px;letter-spacing:.05em">v3 自駕討論版</div>
+<div class="dt">2026 / 06 / 29 — 07 / 15</div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="bnav">
+<div class="nb active" onclick="sw('itin',this)"><span class="ic">📅</span>行程</div>
+<div class="nb" onclick="sw('explore',this)"><span class="ic">🗺️</span>探索</div>
+<div class="nb" onclick="sw('map',this)"><span class="ic">📍</span>地圖</div>
+<div class="nb" onclick="sw('guide',this)"><span class="ic">📋</span>攻略</div>
+<div class="nb" onclick="sw('pack',this)"><span class="ic">🧳</span>行李</div>
+<div class="nb" onclick="sw('notes',this)"><span class="ic">📝</span>筆記</div>
+</div>
+
+<!-- ITINERARY -->
+<div id="v-itin" class="view active"><div class="tabs" id="dTabs"></div><div class="ct"><div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:.76em;color:#1E40AF">⏰ 時間已自動調整為約 10:00 出門（+1.5hr）｜✈ 標記為固定時間不可移動</div><div id="dCards"></div></div></div>
+
+<!-- EXPLORE -->
+<div id="v-explore" class="view"><div class="ct">
+<h2 style="font-size:1.05em;margin-bottom:3px">🗺️ 探索推薦 + 美食圖鑑</h2>
+<p style="font-size:.78em;color:var(--t2);margin-bottom:14px">吃喝玩樂購物拍照，按區域瀏覽</p>
+<div class="et">
+<div class="etb active" data-r="nice" onclick="sR('nice',this)">🔵 Nice</div>
+<div class="etb" data-r="arles" onclick="sR('arles',this)">🟠 Provence</div>
+<div class="etb" data-r="aix" onclick="sR('aix',this)">🟣 Aix</div>
+</div>
+<div class="ex-toolbar">
+<button class="ex-toggle" id="hideVisitedBtn" onclick="toggleHideVisited()">🙈 收合已去過</button>
+<span class="ex-count" id="exCount"></span>
+</div>
+<div id="exCards"></div>
+
+<!-- Day Picker Modal -->
+<div class="day-picker-overlay" id="dayPickerOverlay" onclick="closeDayPicker(event)">
+<div class="day-picker" onclick="event.stopPropagation()">
+<h3 id="dpTitle">加到哪一天？</h3>
+<div class="dp-sub" id="dpSub"></div>
+<div class="day-picker-grid" id="dpGrid"></div>
+<button class="dp-cancel" onclick="closeDayPicker()">取消</button>
+</div>
+</div>
+</div></div>
+
+<!-- MAP -->
+<div id="v-map" class="view"><div id="map"></div></div>
+
+<!-- GUIDE -->
+<div id="v-guide" class="view"><div class="ct">
+<button class="sbtn" onclick="shareTrip()">📤 分享行程給朋友（複製文字）</button>
+
+<div class="nw-box">
+<h3>🚗 自駕新手專區</h3>
+<div class="guide-item">
+<h4>📊 全程路段難度</h4>
+<table class="nw-table">
+<tr><th>天</th><th>路線</th><th>難度</th><th>備注</th></tr>
+<tr><td>Day 6</td><td>Nice→Grasse→Valensole→Fourques</td><td>⭐⭐</td><td>第一天，高速+平路為主</td></tr>
+<tr><td>Day 7</td><td>Fourques↔Gordes圈</td><td>⭐⭐⭐</td><td>塞南克D177很窄！</td></tr>
+<tr><td>Day 8</td><td>St-Rémy→Les Baux→Arles</td><td>⭐⭐</td><td>距離短，輕鬆</td></tr>
+<tr><td>Day 9</td><td>Fourques↔亞維儂</td><td>⭐</td><td>省道為主</td></tr>
+<tr><td>Day 10</td><td>Arles→嘉德水道橋</td><td>⭐</td><td>輕鬆</td></tr>
+<tr><td>Day 11</td><td>Fourques→Aix</td><td>⭐</td><td>高速為主</td></tr>
+<tr><td>Day 12</td><td>Aix↔Cassis</td><td>⭐⭐</td><td>沿海省道，景色美</td></tr>
+<tr><td>Day 16</td><td>Aix→MRS還車</td><td>⭐</td><td>⚠️ 注意國慶日封路</td></tr>
+</table>
+</div>
+<div class="guide-item" style="border-left:4px solid #DC2626">
+<h4>⚠️ 新手最需要知道的四件事</h4>
+<p><span class="warn">🛑 Stop 標誌要停足 3 秒</span>——台灣習慣慢速滑過去，法國警察會直接攔車。看到 Stop 牌就完全停住，數 1–2–3 再走。</p>
+<p style="margin-top:6px"><span class="warn">💨 A8 高速有 Mistral 強風</span>（普羅旺斯名物），車子會被吹歪，不危險，握好方向盤就好。</p>
+<p style="margin-top:6px"><span class="warn">🅿️ 停車繳費機要輸車牌號碼</span>，不是投幣就走。找機器→輸車牌→選時間→刷卡→收據放擋風玻璃下。</p>
+<p style="margin-top:6px"><span class="warn">⛽ 偏遠地區加油站有限</span>，不要等油燈亮。上高速前或在 Leclerc 補油（比高速 Aire 便宜 €0.15–0.20/L）。</p>
+</div>
+<div class="guide-item">
+<h4>📱 導航：Waze 優先</h4>
+<p>Waze 有測速照相預警（法國很重要），Google Maps 沒有。建議兩個都裝：<span class="warn">Waze 導航</span>＋<span class="warn">Google Maps 離線地圖</span>（備用+找餐廳）。手機架出發前裝好。</p>
+</div>
+<div class="guide-item" style="border-left:4px solid var(--ok)">
+<h4>✅ Day 6 第一天備忘</h4>
+<p>① 取車後先在停車場測試倒車視野和照後鏡<br>② Waze 開好、手機架裝好再上路<br>③ 上A8第一個Aire加滿油<br>④ 收費站：信用卡放手邊，慢慢來不用急<br>⑤ 目標 17:30 前到 Fourques</p>
+</div>
+<div class="disc-box">
+<h4>💬 聖十字湖要去嗎？（討論用）</h4>
+<p>已從 Day 6 移出（Verdon 山路對新手第一天太重）。以下是選項：</p>
+<div class="opt-card"><h5>方案 A：Day 8 換掉 Les Baux</h5><p>從 Fourques 走 A51 北上約 1.5hr 到 Sainte-Croix，再去 Valensole（如 Day 6 沒去）。取捨：光影採石場 vs 蒂芬妮綠。</p></div>
+<div class="opt-card"><h5>方案 B：直接跳過</h5><p>Cassis 峽灣（Day 12）的藍色不輸聖十字湖，路程簡單很多。整趟不去也不會遺憾。</p></div>
+</div>
+</div>
+
+<div class="kn">
+<div class="kni"><div class="n" style="color:var(--ni)">4晚</div><div class="l">Nice</div></div>
+<div class="kni"><div class="n" style="color:var(--ar)">5晚</div><div class="l">Fourques</div></div>
+<div class="kni"><div class="n" style="color:var(--ax)">5晚</div><div class="l">Aix</div></div>
+<div class="kni"><div class="n" style="color:var(--gr)">11天</div><div class="l">租車</div></div>
+</div>
+
+<!-- BOOKING INFO -->
+<div class="guide-section">
+<h3>📋 訂房與機票</h3>
+<div class="card"><h3>✈️ 去程</h3><div class="ir"><span class="il">航班</span><span class="iv">TK25→TK1813</span></div><div class="ir"><span class="il">出發</span><span class="iv">6/29 21:45 TPE</span></div><div class="ir"><span class="il">抵達</span><span class="iv">6/30 09:10 NCE</span></div><div class="ir"><span class="il">行李</span><span class="iv">託運30kg+手提8kg</span></div></div>
+<div class="card"><h3>✈️ 回程</h3><div class="ir"><span class="il">航班</span><span class="iv">TK1368→TK24</span></div><div class="ir"><span class="il">出發</span><span class="iv">7/14 19:05 MRS</span></div><div class="ir"><span class="il">抵達</span><span class="iv">7/15 17:55 TPE</span></div></div>
+<div class="card"><h3>🏨 Hotel Solara（Nice）</h3><div class="ir"><span class="il">日期</span><span class="iv">6/30-7/4（4晚）</span></div><div class="ir"><span class="il">地址</span><span class="iv">7 Rue de France, 06000</span></div><div class="ir"><span class="il">訂單</span><span class="iv">5163443050</span></div><div class="ir"><span class="il">密碼</span><span class="iv">8219</span></div><div class="ir"><span class="il">電話</span><span class="iv">+33 4 93 88 09 96</span></div></div>
+<div class="card"><h3>🏠 Airbnb（Fourques）</h3><div class="ir"><span class="il">日期</span><span class="iv">7/4-7/9（5晚）</span></div><div class="ir"><span class="il">地址</span><span class="iv">4 Rue Baudoin, 30300</span></div><div class="ir"><span class="il">房東</span><span class="iv">Patricia</span></div></div>
+<div class="card"><h3>🏨 Le Mas des Ecureuils（Aix）</h3><div class="ir"><span class="il">日期</span><span class="iv">7/9-7/14（5晚）</span></div><div class="ir"><span class="il">地址</span><span class="iv">1170 Petite Rte des Milles</span></div></div>
+<div class="card"><h3>🚗 租車</h3><div class="ir"><span class="il">取車</span><span class="iv">7/4 尼斯市區</span></div><div class="ir"><span class="il">還車</span><span class="iv">7/14 馬賽機場</span></div></div>
+</div>
+
+<!-- NICE CITY TRANSPORT GUIDE -->
+<div class="guide-section">
+<h3>🚋 尼斯市區交通</h3>
+<div class="guide-item"><h4>🎫 交通票怎麼買</h4><p>尼斯公共交通由 <span class="warn">Ligne d'Azur</span> 營運，公車和輕軌同一張票。單程 €1.70（74 分鐘內可轉乘）。建議買 <span class="warn">10 次券 €15</span>（兩人分著用剛好），或 7 日券 €20。可下載 Tram Tix App 儲值（Android）。</p></div>
+<div class="guide-item"><h4>✈️ 機場→市區</h4><p>NCE 機場搭 <span class="warn">Tram L2</span> 到市中心約 30 分鐘，方向選「Port Lympia」。不需要搭計程車！<br><span class="warn">⚠️ 省錢技巧</span>：機場內賣的是 €10 特殊票，不要買！搭一站到下一站，下車後用月台售票機買→空卡 €2 + 單程 €1.70 = <span class="warn">總共 €3.70</span> 就到市區，差 €6！之後可用 Tram Tix App 加值。</p></div>
+<div class="guide-item"><h4>🚃 近郊火車</h4><p>去芒通、摩納哥、昂蒂布都搭 <span class="warn">TER 區域火車</span>（SNCF），在 Nice-Ville 火車站搭。單程 €3-6，直接在月台售票機買或 SNCF App 買。不需預約。</p></div>
+<div class="guide-item"><h4>💡 建議</h4><p>你們在 Nice 四天不租車，靠輕軌+公車+火車綽綽有餘。<span class="warn">不建議買 Nice tourist pass</span>——除非你每天都要進博物館，否則單買交通票比較划算。</p></div>
+</div>
+
+<!-- LUGGAGE SAFETY -->
+<div class="guide-section">
+<h3>🔒 行李安全＆兩個女生注意事項</h3>
+<div class="guide-item"><h4>🚗 車上行李防竊</h4><p>南法（特別是觀光景點停車場）<span class="warn">車窗被砸偷行李是真的會發生的事</span>。最重要原則：車內絕對不能看到任何東西。行李全放後車廂，在出發前就放好，<span class="warn">到了景點不要再打開後車廂</span>（會被盯上）。</p></div>
+<div class="guide-item"><h4>👜 隨身必帶</h4><p>每次下車一定帶走：<span class="warn">護照、信用卡、手機、現金</span>。相機和筆電也帶著。車上不要留外套、購物袋、任何看起來像「裡面可能有東西」的物品。空車 = 安全車。</p></div>
+<div class="guide-item"><h4>🅿️ 停車選擇</h4><p>選有 CCTV 監控的地下停車場或停車場（Parking Couvert）。不要停在偏僻的路邊或空曠的停車場。停在其他車中間比停角落安全。</p></div>
+<div class="guide-item"><h4>👩‍👩‍👦 兩個女生出遊</h4><p>南法整體治安OK，但要注意：<span class="warn">高速公路休息站不要停太久</span>，上完廁所就走。夜間避免走暗巷。在人多的觀光區小心扒手（背包背前面）。Nice 火車站附近晚上不要逗留。其實跟去任何歐洲城市一樣，保持基本警覺就好！</p></div>
+</div>
+
+<!-- ESIM GUIDE -->
+<div class="guide-section">
+<h3>📱 eSIM 上網</h3>
+<div class="guide-item"><h4>📶 流量建議</h4><p>17 天建議買 <span class="warn">10-15 GB</span>。兩人各自需要一張。如果飯店都有 WiFi 且主要用 Google Maps 和傳訊息，10 GB 夠。如果會上傳很多照片到 IG 或看影片，選 15 GB 或吃到飽方案。</p></div>
+<div class="guide-item"><h4>📲 推薦平台</h4><p><span class="warn">Airalo</span>（最多人用、品質穩定）、<span class="warn">Holafly</span>（有歐洲吃到飽方案）、Saily、eSIMdb（比價網站）。出發前就買好裝好，飛機落地直接啟用。</p></div>
+<div class="guide-item"><h4>💡 省流量技巧</h4><p>出發前下載 <span class="warn">Google Maps 離線地圖</span>（搜尋「南法」→ 下載離線地圖），這樣導航不太耗流量。照片設定 WiFi 才上傳。餐廳密碼通常寫在收據或牆上。</p></div>
+</div>
+
+<!-- SHOPPING LIST -->
+<div class="guide-section">
+<h3>🛒 法國必買清單</h3>
+<div class="guide-item"><h4>💊 藥妝（Parapharmacie 買最便宜）</h4><p>
+• <span class="warn">La Roche-Posay</span> 理膚寶水 — 防曬、B5 修復霜<br>
+• <span class="warn">Avène</span> 雅漾 — 舒護活泉水、冷霜潤膚霜<br>
+• <span class="warn">Bioderma</span> 貝膚黛瑪 — 卸妝水（粉蓋）<br>
+• <span class="warn">Caudalie</span> 歐緹麗 — 葡萄籽精華、皇后水<br>
+• <span class="warn">Nuxe</span> 黎可詩 — 全效晶亮護理油（萬用油）<br>
+• <span class="warn">Embryolisse</span> — 保濕霜（法國彩妝師愛用）<br>
+• Vichy 薇姿 — 火山礦物 89 精華<br>
+💡 到「Parapharmacie」買比一般藥局便宜 20-30%。Aix 和 Nice 市區都有。</p></div>
+<div class="guide-item"><h4>🍫 美食伴手禮</h4><p>
+• <span class="warn">Calisson</span> 杏仁糖 — Aix 名產，Roy René 買（Day 11）<br>
+• 薰衣草蜂蜜 / 橄欖油 / Tapenade 橄欖醬 — 市集買<br>
+• Fleur de Sel 鹽之花 — 料理用鹽，卡馬格產的最好<br>
+• 馬賽皂 Savon de Marseille — 72% 橄欖油的是正宗<br>
+• Navettes 橙花餅乾 — 普羅旺斯傳統<br>
+• Nougat 牛軋糖 — 蒙特利馬產的最有名</p></div>
+<div class="guide-item"><h4>👗 時尚</h4><p>
+• <span class="warn">Sézane</span> — 法國輕奢女裝，Aix 有店（Day 13 可逛）<br>
+• <span class="warn">Rose et Marius</span> — 普羅旺斯風香氛蠟燭<br>
+• Petit Bateau — 法國國民品牌條紋衫<br>
+• 市集手工飾品 / 普羅旺斯花布 — 索格島和 Aix 市集<br>
+💡 同一家店消費滿 €100.01 可退稅約 12%！結帳說 "Détaxe s'il vous plaît"</p></div>
+</div>
+
+<!-- AVIGNON FESTIVAL -->
+<div class="guide-section">
+<h3>🎭 雅維農藝術節攻略</h3>
+<div class="guide-item" style="border-left:4px solid #E09B4F"><h4>📅 第80屆｜7/4 — 7/25</h4><p>你們 7/4-7/14 完美撞上！這是全球最大的表演藝術節，整座城變成一個巨大的劇場。分為 <span class="warn">IN</span>（教皇宮等主場館正式演出）和 <span class="warn">OFF</span>（1000+ 場獨立小劇場遍佈全城）。</p></div>
+<div class="guide-item"><h4>🆓 免費體驗</h4><p>不用買票也超精彩！街頭到處是穿戲服的演員發傳單、廣場有即興表演、小巷轉角突然有人演戲。<span class="warn">Place de l'Horloge</span> 和 Place Pie 是免費表演最多的地方。下午到深夜都有。</p></div>
+<div class="guide-item"><h4>🎟️ 想看演出</h4><p>OFF 演出 €10-25/場，小教堂和學校改造的劇場很特別。不用懂法文——很多舞蹈和肢體劇場不需要語言。IN 票 €18-85，4/5 起上 <span class="warn">festival-avignon.com</span> 購票。買 Carte 3 clés（€1）享折扣。</p></div>
+<div class="guide-item"><h4>🅿️ 停車</h4><p>藝術節期間市區一位難求！<span class="warn">停 Île Piot 免費停車場</span>，有免費接駁船過河進城。千萬別開進城牆內。</p></div>
+<div class="guide-item"><h4>💡 建議</h4><p>Day 9（7/7）已排整天亞維儂，建議白天看教皇宮+逛街頭表演，下午挑一場 OFF 小劇場。如果意猶未盡，<span class="warn">Day 10 下午看完嘉德水道橋也可以繞去再逛</span>，反正 Fourques 離亞維儂才 45 分鐘。</p></div>
+</div>
+
+<!-- DRIVING GUIDE -->
+<div class="guide-section">
+<h3>🚗 自駕生存指南</h3>
+<div class="guide-item"><h4>🔄 圓環 Rond-Point</h4><p>法國到處都是圓環！規則：<span class="warn">已在圓環內的車優先</span>，外面要讓裡面。進入前減速看左邊來車，確認安全才進入。出圓環時打右轉燈。</p></div>
+<div class="guide-item"><h4>💳 收費站 Péage</h4><p>上高速公路時拿票根，到收費站插入票根後刷信用卡。看上方燈號：綠色箭頭+「t」= 各種付款皆可。<span class="warn">避開只有橘色「t」的車道</span>（那是電子收費 ETC）。短程如尼斯→坎城，Google Maps 可設定避開收費站。</p></div>
+<div class="guide-item"><h4>⛽ 加油站</h4><p>全自助！插信用卡→選油槍號碼→加油→列印收據。柴油 = Gazole/Diesel，汽油 = Sans Plomb 95/98。<span class="warn">城市內加油站很少</span>，高速公路休息站和量販店（Leclerc, Carrefour）停車場有。不要等油燈亮才找！</p></div>
+<div class="guide-item"><h4>🅿️ 停車</h4><p>路邊白線 + Payant 標示 = 付費車位。找到繳費機→輸車牌→選時間→刷卡付款。把收據放擋風玻璃下。<span class="warn">藍線 = 限時免費</span>（需要放藍色停車計時盤）。黃線 = 禁停。</p></div>
+<div class="guide-item"><h4>⚠️ 重要提醒</h4><p>速限：市區50→郊區80→高速130 km/h。<span class="warn">超速罰單從 €68 起跳</span>，有固定測速和移動測速。全車系安全帶必繫。法國開車右駕左行（跟台灣一樣右邊開）。白天開大燈。手機不能拿在手上（罰 €135）。</p></div>
+</div>
+
+<!-- PRACTICAL CHEAT SHEET -->
+<div class="guide-section">
+<h3>📝 實用小抄</h3>
+<div class="guide-item"><h4>🌡️ 七月天氣</h4><p>南法七月：28-32°C，日照到 21:00。基本上每天大太陽。<span class="warn">防曬必備！</span>薄外套帶一件（冷氣車裡和山區早晚用）。偶爾會有午後雷陣雨但很快停。</p></div>
+<div class="guide-item"><h4>💶 退稅</h4><p>同一家店消費滿 €100.01 可退稅（約 12%）。結帳時跟店員說 "Tax free please" 或 "Détaxe s'il vous plaît"。拿到退稅單→在機場辦退稅（先退稅再託運）。<span class="warn">馬賽機場 MRS 有退稅櫃台</span>，提早到！</p></div>
+<div class="guide-item"><h4>💰 小費文化</h4><p>法國帳單已含服務費，<span class="warn">不需要給小費</span>。滿意的話留 €1-2 零錢在桌上就很有禮貌了。不用像美國算 15-20%。</p></div>
+<div class="guide-item"><h4>🕐 營業時間地雷</h4><p><span class="warn">週日大部分商店不開！</span>超市也是。週一部分博物館休館。中午 12:00-14:00 很多小店午休。餐廳午餐 12:00-14:00、晚餐 19:00-21:30，錯過就沒得吃。</p></div>
+<div class="guide-item"><h4>🚻 上廁所攻略</h4><p>法國廁所<span class="warn">不外借</span>，一定要在店內消費才能用。麥當勞廁所有密碼鎖，密碼印在收據上。街上公廁很少。建議：進咖啡廳點杯飲料順便解決，或記住每天行程中有沒有餐廳停留點。</p></div>
+<div class="guide-item"><h4>🔌 插座</h4><p>法國用 Type C/E 圓孔插座，220V。帶歐規轉接頭就好（行李清單裡有）。</p></div>
+</div>
+
+<!-- FRENCH PHRASES -->
+<div class="guide-section">
+<h3>🇫🇷 基礎法文對照</h3>
+<div class="card">
+<h3>👋 打招呼</h3>
+<table class="phrase-table">
+<tr><td>Bonjour（邦啾）</td><td>你好（白天用）</td></tr>
+<tr><td>Bonsoir（邦刷）</td><td>你好（晚上用）</td></tr>
+<tr><td>Merci（梅西）</td><td>謝謝</td></tr>
+<tr><td>S'il vous plaît（西福撲雷）</td><td>請</td></tr>
+<tr><td>Excusez-moi（艾斯Q賊摸阿）</td><td>不好意思</td></tr>
+<tr><td>Parlez-vous anglais?</td><td>你說英文嗎？</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>🍽️ 點餐</h3>
+<table class="phrase-table">
+<tr><td>L'addition（拉地熄翁）</td><td>買單</td></tr>
+<tr><td>Un café（安卡費）</td><td>一杯咖啡</td></tr>
+<tr><td>Un verre de rosé</td><td>一杯粉紅酒</td></tr>
+<tr><td>Une carafe d'eau</td><td>一壺水（免費自來水）</td></tr>
+<tr><td>C'est délicieux!（誰 得利系勾）</td><td>好好吃！</td></tr>
+<tr><td>Je suis allergique à…</td><td>我對⋯過敏</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>🆘 緊急</h3>
+<table class="phrase-table">
+<tr><td>Au secours!（歐色酷）</td><td>救命！</td></tr>
+<tr><td>Appelez la police</td><td>叫警察</td></tr>
+<tr><td>J'ai besoin d'aide</td><td>我需要幫忙</td></tr>
+<tr><td>Où est l'hôpital?</td><td>醫院在哪？</td></tr>
+<tr><td>歐洲緊急電話</td><td>112</td></tr>
+<tr><td>駐法台北代表處</td><td>+33 1 44 39 88 30</td></tr>
+</table>
+</div>
+</div>
+
+<!-- BLOGGER TIPS -->
+<div class="guide-section">
+<h3>✨ 部落客實戰筆記</h3>
+<p style="font-size:.8em;color:var(--t2);margin-bottom:10px">從 5 篇攻略文章中萃取的實用情報，方便討論取捨！</p>
+<div class="guide-item" style="border-left:4px solid var(--ok)"><h4>💰 花費參考（Mandy 6日自駕）</h4><p>兩人 6 天共 <span class="warn">€1,821</span>，平均每人每天約 <span class="warn">€151</span>（含住宿+餐飲+油費+門票）。住宿佔最大比例。超市買食材自煮可以省很多！</p></div>
+<div class="guide-item" style="border-left:4px solid var(--ni)"><h4>🚗 自駕心得（Tiffany 8日）</h4><p>南法路標清楚，開車比想像中簡單。但 <span class="warn">市區停車超難</span>！強烈建議租小車（不要 SUV）方便停車和窄巷。高速公路很好開，鄉間小路也有趣。</p></div>
+<div class="guide-item" style="border-left:4px solid var(--ax)"><h4>🏛️ Aix 散步攻略（Lillian）</h4><p>Aix 全程 <span class="warn">步行即可</span>，不需要搭車。重點：Cours Mirabeau 大道、各式噴泉（野豬噴泉很可愛）、Monoprix 超市。可買 <span class="warn">City Pass Aix-en-Provence</span> 省門票。市集 <span class="warn">Tue/Thu/Sat</span>，週六最大。</p></div>
+<div class="guide-item" style="border-left:4px solid var(--ar)"><h4>🎭 教皇宮必看（Tiffany 大推）</h4><p>教皇宮的 <span class="warn">AR 導覽有中文</span>！非常值得花 2 小時慢慢看，不是普通的語音導覽，是擴增實境可以看到當年的樣貌。全程最推的景點之一。</p></div>
+<div class="guide-item" style="border-left:4px solid var(--ok)"><h4>🍽️ 必吃餐廳 Top 3（部落客共推）</h4><p>
+① <span class="warn">Le Goût du Jour</span>（亞維儂）— Tiffany 全趟最推，午餐限定<br>
+② <span class="warn">Toinou</span>（Aix）— 海鮮老店，生蠔塔CP值高<br>
+③ <span class="warn">Chez Mamine</span>（聖雷米）— 早午餐梧桐樹下</p></div>
+<div class="guide-item" style="border-left:4px solid var(--ni)"><h4>📍 可加可不加的景點（討論用）</h4><p>
+• <span class="warn">Moustiers-Sainte-Marie</span> — 陶瓷小鎮，Day 6 聖十字湖順路（+1hr）<br>
+• <span class="warn">L'OCCITANE 工廠</span> — 免費參觀但需預約，在 Manosque（Day 7 路線附近）<br>
+• <span class="warn">Saint-Paul de Vence</span> — 藝術山城，Nice 搭公車 45min（Day 5 可排）<br>
+• <span class="warn">Salin de Giraud 粉紅鹽田</span> — 離阿爾勒 40min，需自駕<br>
+• <span class="warn">Roussillon 赭石步道</span> — Day 7 石頭城順路，30-60min 走入紅色峽谷</p></div>
+</div>
+
+<!-- REFERENCE BLOGS -->
+<div class="guide-section">
+<h3>📚 參考攻略＆部落格</h3>
+<p style="font-size:.8em;color:var(--t2);margin-bottom:10px">蒐集的南法旅遊文章，點開直接看原文，方便跟朋友一起討論刪減行程！</p>
+<div class="guide-item"><h4>📝 Tripper — 南法自由行筆記</h4><p>南法旅遊實用筆記，涵蓋行程規劃和景點介紹。<br><a href="https://tripper.tw/southfrance-note3/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ tripper.tw/southfrance-note3</a></p></div>
+<div class="guide-item"><h4>🏆 KS Journey — 南法 Top 10 必去</h4><p>精選南法最值得去的 10 個景點推薦。<br><a href="https://ksjourney.life/southfrancetop10/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ ksjourney.life/southfrancetop10</a></p></div>
+<div class="guide-item"><h4>✍️ 方格子 Vocus — 南法旅遊攻略</h4><p>台灣旅人的南法遊記分享。<br><a href="https://vocus.cc/article/68ac260ffd89780001cae969" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ vocus.cc 南法攻略</a></p></div>
+<div class="guide-item"><h4>🌿 Lillian — 艾克斯普羅旺斯攻略</h4><p>Aix-en-Provence 深度介紹，景點、美食、交通一次看。<br><a href="https://lillian.tw/aix-en-provence/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ lillian.tw/aix-en-provence</a></p></div>
+<div class="guide-item"><h4>🚗 Miss Eaglett — 2024 南法 8 天自駕行程</h4><p>自駕輕鬆上手！8 天南法自駕經驗分享，適合第一次自駕參考。<br><a href="https://misseaglett.medium.com/2024-%E5%8D%97%E6%B3%958%E5%A4%A9%E8%A1%8C%E7%A8%8B-%E8%87%AA%E9%A7%95-%E8%BC%95%E9%AC%86%E4%B8%8A%E6%89%8B-04bdb1db9e42" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ Medium: 南法 8 天自駕輕鬆上手</a></p></div>
+</div>
+
+</div></div>
+
+<!-- PACKING -->
+<div id="v-pack" class="view"><div class="ct"><h2 style="font-size:1.05em;margin-bottom:14px">🧳 行李清單</h2>
+<div style="display:flex;gap:6px;margin-bottom:14px">
+<input id="pkNewItem" type="text" placeholder="自己加一個..." style="flex:1;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;font-size:.82em;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter')addPkItem()">
+<select id="pkNewCat" style="padding:8px 6px;border:1px solid var(--bd);border-radius:8px;font-size:.78em;background:var(--cd);color:var(--tx);outline:none"></select>
+<button onclick="addPkItem()" style="padding:8px 14px;border:1px solid var(--ni);border-radius:8px;background:var(--nil);color:var(--ni);font-weight:600;font-size:.82em;cursor:pointer;white-space:nowrap">＋ 加入</button>
+</div>
+<div id="pkList"></div></div></div>
+
+<!-- NOTES -->
+<div id="v-notes" class="view"><div class="ct">
+<h2 style="font-size:1.05em;margin-bottom:3px">📝 旅行筆記</h2>
+<p style="font-size:.78em;color:var(--t2);margin-bottom:14px">跟朋友一起記錄想法、討論、待確認事項</p>
+<div style="margin-bottom:10px"><button class="note-add-btn" onclick="addNote()">＋ 新增筆記</button></div>
+<div id="noteList"></div>
+
+<div style="margin-top:28px;border-top:1px solid var(--bd);padding-top:18px">
+<h2 style="font-size:1.05em;margin-bottom:3px">🔄 同步資料</h2>
+<p style="font-size:.78em;color:var(--t2);margin-bottom:12px">匯出你的狀態碼傳給朋友，她匯入就能同步（行程勾選、探索去過、筆記、行李清單全都包）</p>
+<div style="display:flex;gap:8px;margin-bottom:10px">
+<button class="sync-btn" onclick="exportState()" style="flex:1;padding:10px;border:1px solid var(--ni);border-radius:8px;background:var(--nil);color:var(--ni);font-weight:600;font-size:.82em;cursor:pointer">📤 匯出（複製代碼）</button>
+<button class="sync-btn" onclick="showImport()" style="flex:1;padding:10px;border:1px solid var(--ar);border-radius:8px;background:var(--arl);color:var(--ar);font-weight:600;font-size:.82em;cursor:pointer">📥 匯入朋友的</button>
+</div>
+<div id="syncImportBox" style="display:none">
+<textarea id="syncInput" placeholder="把朋友傳給你的代碼貼在這裡..." style="width:100%;min-height:70px;border:1px solid var(--bd);border-radius:8px;padding:10px;font-size:.78em;font-family:monospace;resize:vertical;box-sizing:border-box"></textarea>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button onclick="importState()" style="flex:1;padding:8px;border:1px solid var(--ok);border-radius:8px;background:#ECFDF5;color:var(--ok);font-weight:600;font-size:.8em;cursor:pointer">✅ 確認匯入</button>
+<button onclick="mergeState()" style="flex:1;padding:8px;border:1px solid var(--ax);border-radius:8px;background:var(--axl);color:var(--ax);font-weight:600;font-size:.8em;cursor:pointer">🔀 合併（不覆蓋）</button>
+<button onclick="hideSyncBox()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--t2);font-size:.8em;cursor:pointer">取消</button>
+</div>
+</div>
+</div>
+</div></div>
+
+<script>
+function sp(s){return String(s).replace(/([\u4e00-\u9fff\u3400-\u4dbf])([A-Za-z0-9€$@#(])/g,'$1 $2').replace(/([A-Za-z0-9€$@#%\)])(?![\s,.\-])([\u4e00-\u9fff\u3400-\u4dbf])/g,'$1 $2');}
+
+const DAYS=[
+{day:1,date:'06/29（一）',title:'出發！台北→伊斯坦堡',s:'travel',t:'travel',a:[{time:'19:00',text:'抵達桃園機場',tags:['transport']},{time:'21:45',text:'TK25起飛→伊斯坦堡轉機',tags:['transport'],note:'飛行12.5hr，帶頸枕眼罩',fixed:true}]},
+{day:2,date:'06/30（二）',title:'抵達尼斯！適應時差',s:'nice',t:'nice',a:[{time:'09:10',text:'抵達NCE',tags:['transport'],fixed:true},{time:'09:30',text:'輕軌L2進市區（30min）',tags:['transport'],note:'€1.70'},{time:'10:30',text:'Hotel Solara寄放行李',tags:['hotel'],g:'Hotel+Solara+7+Rue+de+France+Nice'},{time:'11:30',text:'老城吃Socca鷹嘴豆餅',tags:['food'],note:'推薦Chez Pipo/Chez Thérésa',g:'Chez+Pipo+Nice'},{time:'14:00',text:'Check-in休息',tags:['hotel']},{time:'16:00',text:'英國人散步大道',tags:['sight'],note:'#ILoveNICE拍照',g:'Promenade+des+Anglais+Nice'},{time:'18:30',text:'城堡山看日落',tags:['sight','photo'],note:'有電梯！日落約21:15',g:'Colline+du+Chateau+Nice'}]},
+{day:3,date:'07/01（三）',title:'摩納哥 Monaco + 芒通 Menton',s:'nice',t:'nice',a:[{time:'08:30',text:'TER 火車 → 芒通 Menton（35min）',tags:['transport'],note:'坐右邊靠窗看海！沿途海景超美',g:'Gare+de+Menton'},{time:'09:30',text:'芒通彩色老城 Vieux Menton',tags:['sight','photo'],note:'義式風格彩色建築沿山坡蜿蜒，走到 Basilique Saint-Michel 教堂廣場俯瞰港灣',g:'Basilique+Saint+Michel+Menton'},{time:'11:00',text:'芒通海邊午餐',tags:['food'],note:'港邊有很多海鮮餐廳，價格比 Nice 便宜',g:'Port+de+Menton+restaurant'},{time:'12:30',text:'火車 → 摩納哥 Monaco（12min）',tags:['transport'],g:'Gare+de+Monaco+Monte+Carlo'},{time:'13:00',text:'摩納哥老城 Le Rocher',tags:['sight','photo'],note:'在皇宮廣場可以看到整個港灣全景。如果 11:55 到可以看衛兵交接（免費）',g:'Place+du+Palais+Monaco'},{time:'13:30',text:'摩納哥大教堂 Cathédrale',tags:['sight'],note:'Grace Kelly（乖乖莉公主）的安息之處，免費參觀，白色石造教堂很莊嚴',g:'Cathedrale+Notre+Dame+Immaculee+Monaco'},{time:'14:15',text:'走下山到 Port Hercule 港口',tags:['sight','photo'],note:'港口停滿超級遊艇！路邊就有 Ferrari、Lamborghini、Rolls-Royce 隨便看。不是特定景點，就是走在路上就能看到',g:'Port+Hercule+Monaco'},{time:'15:00',text:'蒙地卡羅賭場 Casino de Monte-Carlo',tags:['sight','photo'],note:'大廳 Atrium 免費參觀，超華麗巴洛克建築。想進賭場區 €18（含 €10 籌碼券），需護照，18 歲以上。穿著要整齊：不能穿拖鞋球鞋破洞牛仔褲',g:'Casino+de+Monte+Carlo'},{time:'15:45',text:'Place du Casino 廣場看名車',tags:['sight','photo'],note:'賭場門口永遠停著超跑！Bugatti、McLaren、Ferrari⋯免費名車展。旁邊 Café de Paris 點一杯咖啡坐著看',g:'Place+du+Casino+Monaco'},{time:'17:00',text:'火車回尼斯',tags:['transport']},{time:'19:00',text:'超市買淡菜白酒回飯店自煮',tags:['food'],note:'超市比餐廳便宜很多，配 Rosé 超讚'}]},
+{day:4,date:'07/02（四）',title:'埃茲鷹巢村+粉紅別墅',s:'nice',t:'nice',a:[{time:'09:00',text:'公車→埃茲Eze（25min）',tags:['transport']},{time:'09:45',text:'中世紀村+熱帶植物園',tags:['sight','photo'],note:'€6，360°海景',g:'Eze+Village'},{time:'12:00',text:'下山午餐',tags:['food']},{time:'13:30',text:'→費拉角Cap Ferrat',tags:['transport']},{time:'14:00',text:'Villa Ephrussi粉紅別墅',tags:['sight','photo'],note:'超少女心花園別墅',g:'Villa+Ephrussi+de+Rothschild+Cap+Ferrat'},{time:'17:00',text:'回尼斯',tags:['transport']}]},
+{day:5,date:'07/03（五）',title:'昂蒂布+尼斯最後巡禮',s:'nice',t:'nice',a:[{time:'09:00',text:'火車→昂蒂布Antibes（25min）',tags:['transport']},{time:'09:40',text:'市場+畢卡索博物館',tags:['sight'],g:'Antibes+Vieille+Ville'},{time:'12:30',text:'午餐',tags:['food'],g:'Musee+Picasso+Antibes'},{time:'14:00',text:'Jean Médecin大道逛街/海灘',tags:['sight','shop'],g:'Avenue+Jean+Medecin+Nice'},{time:'19:00',text:'尼斯最後一晚大餐',tags:['food']},{time:'21:00',text:'整理行李',tags:[]}]},
+{day:6,date:'07/04（六）',title:'🌸 香氛日！Grasse香水城+薰衣草',s:'arles',t:'arles',a:[{time:'08:00',text:'退房',tags:['hotel']},{time:'09:00',text:'尼斯取車',tags:['transport'],note:'先在停車場感受車的大小和倒車視野，不急著出發。租車7/4-14已確認'},{time:'09:50',text:'→ Grasse 香水城（D6085，約50min）',tags:['transport'],note:'從Nice往西北方向，普通省道，路況好'},{time:'10:40',text:'Grasse 香水廠參觀',tags:['sight','shop'],note:'Fragonard（免費）/ Molinard / Galimard 三家可選。免費導覽+試香+選購，建議留1–1.5hr',g:'Fragonard+Grasse'},{time:'12:00',text:'Grasse午餐或帶走輕食',tags:['food'],note:'市區有小餐館，或超市買好帶著走'},{time:'12:30',text:'→ Valensole（A8/A51，約1.5hr）',tags:['transport'],note:'上A8後在第一個Aire加油'},{time:'14:00',text:'瓦倫索Valensole薰衣草',tags:['sight','photo'],note:'7月盛開！平原地形，路好開，安心拍照',g:'Plateau+de+Valensole'},{time:'15:30',text:'→ Fourques（A7/N113，約1.5hr）',tags:['transport'],g:'4+Rue+Baudoin+Fourques'},{time:'17:30',text:'Airbnb入住 🏊',tags:['hotel'],note:'有泳池！第一天自駕完成'}]},
+{day:7,date:'07/05（日）',title:'古董市集+碧泉村+石頭城',s:'arles',t:'arles',a:[{time:'08:30',text:'→索格島（1hr）',tags:['transport'],g:'Isle+sur+la+Sorgue'},{time:'09:30',text:'週日古董+水上市集',tags:['sight','photo','shop'],note:'全歐最大！市集 08:30–14:00，這天建議盡量早點出發，越早越精彩、好東西被搶走'},{time:'12:00',text:'午餐',tags:['food']},{time:'13:30',text:'碧泉村湧泉',tags:['sight'],g:'Fontaine+de+Vaucluse'},{time:'15:30',text:'石頭城Gordes全景',tags:['sight','photo'],g:'Gordes+Vaucluse'},{time:'16:30',text:'塞南克修道院薰衣草',tags:['sight','photo'],note:'明信片場景',g:'Abbaye+Notre+Dame+de+Senanque'},{time:'18:30',text:'回Fourques',tags:['transport']}]},
+{day:8,date:'07/06（一）',title:'梵谷足跡+光影採石場',s:'arles',t:'arles',a:[{time:'09:00',text:'→聖雷米St-Rémy（30min）',tags:['transport'],g:'Saint+Remy+de+Provence'},{time:'09:30',text:'梵谷療養院',tags:['sight'],g:'Monastere+Saint+Paul+de+Mausole'},{time:'11:30',text:'聖雷米午餐',tags:['food'],note:'配 Rosé 最搭｜推薦 Chez Mamine 早午餐（Tiffany 推薦）'},{time:'13:30',text:'→波城Les Baux',tags:['transport']},{time:'14:00',text:'光影採石場',tags:['sight'],note:'名畫投影礦坑壁，涼快！',g:'Carrieres+de+Lumieres+Les+Baux'},{time:'16:30',text:'阿爾勒競技場夜景',tags:['sight','photo'],g:'Arenes+Arles'},{time:'19:00',text:'阿爾勒晚餐',tags:['food']}]},
+{day:9,date:'07/07（二）',title:'🎭 亞維儂藝術節！',s:'arles',t:'arles',a:[{time:'09:00',text:'→亞維儂（45min）',tags:['transport'],note:'停Île Piot免費停車場→搭免費接駁船進城'},{time:'10:00',text:'教皇宮 Palais des Papes',tags:['sight'],note:'藝術節 IN 主場地！買 Carte 3 clés（€1）享折扣票。🔥 AR 導覽有中文！非常值得花 2hr 慢慢看（Tiffany 大推）',g:'Palais+des+Papes+Avignon'},{time:'12:00',text:'斷橋 Pont Saint-Bénézet',tags:['sight','photo'],g:'Pont+Saint+Benezet+Avignon'},{time:'12:30',text:'Place de l\'Horloge 午餐',tags:['food'],note:'🎭 藝術節期間廣場有免費街頭表演！邊吃邊看',g:'Place+de+l+Horloge+Avignon'},{time:'14:00',text:'逛OFF小劇場/街頭表演',tags:['sight'],note:'演員穿戲服發傳單超有趣，不懂法文也能看舞蹈和肢體劇場'},{time:'16:00',text:'如果想看一場OFF演出',tags:['sight'],note:'OFF演出€10-25/場，走進教堂/學校改建的小劇場很特別'},{time:'18:00',text:'回Fourques',tags:['transport'],note:'如果意猶未盡，Day10下午可以再來！'}]},
+{day:10,date:'07/08（三）',title:'🛒 週三市集+阿爾勒+嘉德水道橋',s:'arles',t:'arles',a:[{time:'09:00',text:'阿爾勒週三大市集 Boulevard des Lices',tags:['sight','shop'],note:'⭐ 在地市集！食物/香料/起司/布料/薰衣草製品，沿林蔭大道排開。09:00–12:30。這天剛好週三，超幸運！',g:'Boulevard+des+Lices+Arles'},{time:'12:00',text:'午餐',tags:['food'],g:'Luma+Arles'},{time:'14:00',text:'→嘉德水道橋（40min）',tags:['transport']},{time:'14:30',text:'Pont du Gard',tags:['sight','photo'],note:'帶泳衣！橋下玩水',g:'Pont+du+Gard'},{time:'17:30',text:'回Fourques',tags:['transport']},{time:'19:00',text:'泳池+晚餐',tags:['food'],note:'明天搬家到Aix'}]},
+{day:11,date:'07/09（四）',title:'移動→艾克斯',s:'aix',t:'aix',a:[{time:'10:00',text:'Airbnb退房',tags:['hotel']},{time:'11:00',text:'→Aix（1hr）',tags:['transport'],g:'Aix+en+Provence+Centre'},{time:'12:00',text:'Aix午餐',tags:['food']},{time:'14:00',text:'Le Mas des Ecureuils入住',tags:['hotel'],g:'Le+Mas+des+Ecureuils+Aix+en+Provence'},{time:'15:30',text:'圓亭噴泉、米拉波大道',tags:['sight','photo'],g:'Fontaine+de+la+Rotonde+Aix'},{time:'17:00',text:'買Calisson杏仁糖',tags:['food','shop'],note:'除 Roy René 外，也推 Brémono Fils 和 Léonard Parli，三家各有特色可以比較（Lillian 推薦）。順便去 Papeterie Michel 買便宜明信片！',g:'Cours+Mirabeau+Aix+en+Provence'},{time:'19:00',text:'小酒館晚餐',tags:['food']}]},
+{day:12,date:'07/10（五）',title:'卡西斯峽灣秘境',s:'aix',t:'aix',a:[{time:'09:00',text:'→卡西斯Cassis（45min）',tags:['transport'],g:'Cassis+Port'},{time:'10:00',text:'搭船遊Calanques',tags:['sight','photo'],note:'3峽灣45min約€21，早上去較好',g:'Calanques+Cassis+bateau'},{time:'12:00',text:'海灘吃海鮮',tags:['food'],note:'必點海鮮拼盤！'},{time:'14:00',text:'海灘/漁港散步',tags:['sight']},{time:'17:00',text:'回Aix',tags:['transport']}]},
+{day:13,date:'07/11（六）',title:'大市集+塞尚畫室',s:'aix',t:'aix',a:[{time:'09:00',text:'週六Grand Marché',tags:['sight','photo','shop'],note:'超好買！Aix 市集 Tue/Thu/Sat 都有，週六最大。Lillian 推薦逛 Cours Mirabeau 周邊',g:'Marche+Aix+en+Provence'},{time:'12:00',text:'市集午餐',tags:['food']},{time:'14:00',text:'塞尚畫室',tags:['sight'],note:'⚠️ Lillian 提醒：畫室可能整修中，出發前查官網確認是否開放！',g:'Atelier+Cezanne+Aix'},{time:'16:00',text:'逛街/咖啡',tags:['sight','shop'],note:'可能看到法式婚禮'}]},
+{day:14,date:'07/12（日）',title:'馬賽大冒險',s:'aix',t:'aix',a:[{time:'09:00',text:'巴士→馬賽（每15min）',tags:['transport'],note:'車留Aix'},{time:'10:00',text:'守護聖母聖殿',tags:['sight','photo'],g:'Notre+Dame+de+la+Garde+Marseille'},{time:'12:00',text:'舊港馬賽魚湯',tags:['food','sight'],note:'Bouillabaisse必吃',g:'Vieux+Port+Marseille'},{time:'14:00',text:'MUCEM博物館',tags:['sight','photo'],g:'MUCEM+Marseille'},{time:'15:30',text:'Le Panier彩色塗鴉區',tags:['sight','photo','shop'],g:'Le+Panier+Marseille'},{time:'17:00',text:'回Aix',tags:['transport']}]},
+{day:15,date:'07/13（一）',title:'彈性日：掃貨or山城',s:'aix',t:'aix',a:[{time:'10:00',text:'A：Aix藥妝+伴手禮掃貨',tags:['shop'],note:'法國藥妝必買！'},{time:'10:00',text:'B：Lourmarin/Cucuron',tags:['sight','photo'],g:'Lourmarin+Vaucluse'},{time:'15:00',text:'打包行李',tags:['hotel'],note:'⚠️明天國慶日提早出門'},{time:'19:00',text:'最後一晚大餐🥂',tags:['food']}]},
+{day:16,date:'07/14（二）',title:'🇫🇷國慶日→回程',s:'travel',t:'travel',a:[{time:'10:00',text:'最後的可頌',tags:['food']},{time:'12:00',text:'退房',tags:['hotel']},{time:'15:00',text:'→馬賽MRS（40min）',tags:['transport'],note:'⚠️ 這個時間不能再推遲！國慶日可能封路，還車+退稅+登機要預留 2.5hr',g:'Aeroport+Marseille+Provence',fixed:true},{time:'16:00',text:'還車→退稅→登機',tags:['transport']},{time:'19:05',text:'TK1368起飛',tags:['transport'],fixed:true}]},
+{day:17,date:'07/15（三）',title:'回到台北！',s:'travel',t:'travel',a:[{time:'17:55',text:'抵達TPE',tags:['transport'],fixed:true},{time:'19:00',text:'回家休息❤️',tags:[]}]}
+];
+
+const EX={nice:[
+{type:'food',name:'必吃 Socca 鷹嘴豆餅',desc:'尼斯最經典街頭小吃，鷹嘴豆粉+橄欖油烤成薄餅，撒胡椒配 Rosé。一面軟嫩一面酥脆，鹹酥超下酒。',tip:'Chez Pipo 或 Chez Thérésa，約€3-5｜排隊都想坐戶外，室內其實有空位可以直接進！',addr:'Chez Pipo: 13 Rue Bavastro, 06300 Nice',gmap:'Chez+Pipo+13+Rue+Bavastro+Nice'},
+{type:'food',name:'必吃 Pan Bagnat 尼斯三明治',desc:'「泡過的麵包」— 尼斯沙拉夾在圓麵包裡，橄欖油浸潤。鮪魚+蛋+蔬菜+橄欖。',tip:'老城區隨處可買，野餐必備'},
+{type:'food',name:'必吃 Salade Niçoise 尼斯沙拉',desc:'正宗版用生蔬菜！番茄+蠶豆+小蘿蔔+鮪魚+水煮蛋+鯷魚+橄欖+橄欖油。',tip:'不放馬鈴薯才是正宗的'},
+{type:'food',name:'必吃 Pissaladière 洋蔥塔',desc:'焦糖洋蔥+鯷魚+黑橄欖的薄餅，尼斯版的pizza。甜甜鹹鹹超好吃。',tip:'早市和老城麵包店都有，約€3'},
+{type:'food',name:'必吃 Ratatouille 普羅旺斯燉菜',desc:'番茄+茄子+櫛瓜+甜椒+洋蔥，用橄欖油和香草慢燉。就是料理鼠王裡那道！',tip:'幾乎每家餐廳都有'},
+{type:'eat',name:'La Merenda',desc:'道地尼斯菜老店，每天去市場進貨。不接受預約，早到或排隊！',tip:'人均€25-35',addr:'4 Rue Raoul Bosio, 06300 Nice',gmap:'La+Merenda+4+Rue+Raoul+Bosio+Nice'},
+{type:'eat',name:'Lavomatique',desc:'老洗衣房改造，sharing plates+natural wine。必點panisse鷹嘴豆薯條。',tip:'老城區，適合兩人分享',addr:'30 Rue de la Préfecture, 06300 Nice',gmap:'Lavomatique+30+Rue+Prefecture+Nice'},
+{type:'eat',name:'Peixes 海鮮小盤',desc:'時髦海鮮bistro，ceviche超好吃。',tip:'人均€40-60',addr:'6 Rue de l\'Opéra, 06300 Nice',gmap:'Peixes+6+Rue+Opera+Nice'},
+{type:'eat',name:'Rouge 自然酒吧',desc:'Port區，當地人的秘密基地。自然酒+季節小盤。',tip:'傍晚去最有氣氛',addr:'Port de Nice',gmap:'Rouge+bar+a+vin+Nice+Port'},
+{type:'shop',name:'Jean Médecin 大道',desc:'尼斯主購物街。Zara/H&M/Mango/Sephora全有。',tip:'主流品牌一站搞定',addr:'Avenue Jean Médecin, 06000 Nice',gmap:'Avenue+Jean+Medecin+Nice'},
+{type:'shop',name:'Cours Saleya 市場',desc:'花卉+美食市場，每天早上。週一變古董市集。',tip:'買薰衣草束、橄欖油、香料',addr:'Cours Saleya, 06300 Nice',gmap:'Cours+Saleya+Nice'},
+{type:'shop',name:'Trésors Publics 伴手禮',desc:'全法國手工製造精品，不是一般觀光紀念品。',tip:'送禮首選',addr:'2 Rue de la Boucherie, 06300 Nice',gmap:'Tresors+Publics+Nice'},
+{type:'shop',name:'Alziari 橄欖油專賣',desc:'1868年創立。橄欖油、橄欖醬、橄欖保養品。',tip:'試吃再買',addr:'14 Rue Saint-François de Paule, 06300 Nice',gmap:'Alziari+14+Rue+Saint+Francois+de+Paule+Nice'},
+{type:'photo',name:'城堡山大全景',desc:'天使灣+老城+地中海一次入鏡。',tip:'日落前1hr最美',gmap:'Colline+du+Chateau+Nice'},
+{type:'photo',name:'Place Masséna',desc:'紅色建築+棋盤格地板+噴泉。夜晚有燈光裝置。',tip:'下午陽光好拍',gmap:'Place+Massena+Nice'},
+{type:'photo',name:'I ♥ NICE 地標',desc:'英國人大道上的打卡地標，背後就是蔚藍海岸。',tip:'⚠️ 白天去拍！下午會背光，人像黑掉。海灘是鵝卵石不是沙，走起來腳痛，帶拖鞋或厚底鞋',gmap:'I+Love+Nice+sign+Promenade+des+Anglais'},
+{type:'photo',name:'老城彩色窄巷',desc:'粉紅、鵝黃、橘色，隨便拍都美。',tip:'早上10點前人少',gmap:'Vieux+Nice'},
+{type:'hidden',name:'Villefranche-sur-Mer',desc:'尼斯隔壁小漁村，五彩房子沿港灣。搭火車6分鐘。',tip:'IG秘境！比尼斯更安靜',gmap:'Villefranche-sur-Mer'},
+{type:'hidden',name:'Saint-Paul de Vence 藝術山城',desc:'中世紀城牆包圍的藝術村，畫廊、雕塑、手工藝品處處。馬蒂斯、夏卡爾都曾住過。Fondation Maeght 現代藝術基金會值得看。',tip:'從 Nice 搭公車約 45min。小鎮不大 1-2hr 可逛完',gmap:'Saint+Paul+de+Vence'},
+{type:'eat',name:'Sainte-Agnès 鷹巢小餐館',desc:'歐洲最高的海邊小鎮（780m），從芒通可開車上來。中世紀巷弄裡的小餐廳景色驚人。',tip:'KS Journey 推薦｜適合自駕順道去',gmap:'Sainte+Agnes+Alpes+Maritimes'},
+{type:'eat',name:'Café Fino ☕',desc:'北歐風裝潢的精品咖啡廳，手沖咖啡超棒，可頌和 brunch 也很厲害。設計出身的人會愛這家的氛圍！',tip:'📍 尼斯市中心｜來源：Lasma Plone',addr:'Nice Centre',gmap:'Cafe+Fino+Nice'},
+{type:'eat',name:'La Claque Café ☕',desc:'老城區精品咖啡指標，咖啡濃醇好喝。抹茶蛋糕意外驚艷——內有紅豆泥，非常濃郁。抹茶拿鐵也有名。',tip:'📍 Vieux-Nice｜心甜Christy 5/5大推｜來源：The Talking Suitcase + 心甜Christy',addr:'Vieux Nice',gmap:'La+Claque+Cafe+Nice'},
+{type:'eat',name:'Brume Coffee ☕',desc:'木質調+綠植裝潢，拍照超美。精品咖啡品質高，也有好喝的 matcha latte。',tip:'📍 尼斯｜來源：love-ly-south.com',gmap:'Brume+Coffee+Nice'},
+{type:'eat',name:'Michel Fiori 麵包店 🥐',desc:'得獎可頌！各種不同口味的可頌，離火車站近，適合早餐或出發前抓一個。',tip:'📍 Nice 火車站附近｜來源：Lasma Plone',addr:'Near Nice-Ville station',gmap:'Boulangerie+Michel+Fiori+Nice'},
+{type:'eat',name:'Glacier Fenocchio 🍦',desc:'1966 年創立，近百種口味的義式冰淇淋！薰衣草、玫瑰、Calisson、無花果口味都有。Rossetti 廣場上。',tip:'📍 老城 Place Rossetti｜心甜Christy 強推：薰衣草（超有南法感）＋無花果（綿密不甜）｜兩球 €4.5',addr:'Place Rossetti, Vieux Nice',gmap:'Fenocchio+Place+Rossetti+Nice'}
+],arles:[
+{type:'food',name:'必吃 Gardiane de Taureau',desc:'卡馬格黑公牛紅酒燉肉，普羅旺斯特色菜。肉質軟爛，配米飯。',tip:'阿爾勒餐廳幾乎都有'},
+{type:'food',name:'必吃 Tapenade 橄欖醬麵包',desc:'黑橄欖打成泥+酸豆+橄欖油，塗在烤麵包上。開胃前菜經典。',tip:'市集可以買一罐帶回家'},
+{type:'food',name:'必吃 Soupe au Pistou',desc:'普羅旺斯版羅勒蔬菜湯。加了大蒜羅勒橄欖油打成的pistou醬。',tip:'夏天輕食首選'},
+{type:'food',name:'必吃 薰衣草冰淇淋',desc:'只有南法吃得到！淡紫色，花香入口即化。',tip:'Valensole和Gordes附近都有'},
+{type:'food',name:'必喝 Rosé 粉紅酒',desc:'南法人的日常！冰涼的粉紅酒配任何料理都合。夏天一定要喝。',tip:'超市一瓶€5-10就很好喝'},
+{type:'eat',name:'Inari（阿爾勒）',desc:'法越融合菜，開在1224年的教堂裡。',tip:'要訂位',addr:'17 Rue des Porcelets, 13200 Arles',gmap:'Inari+17+Rue+des+Porcelets+Arles'},
+{type:'eat',name:'聖雷米露天午餐',desc:'梧桐樹下的小餐館，配Rosé和普羅旺斯菜。',tip:'週三有市集',gmap:'Place+de+la+Republique+Saint-Remy-de-Provence'},
+{type:'fest',name:'🎭 雅維農藝術節 Festival d\'Avignon',desc:'全球最大表演藝術節！7/4-7/25，你們的行程完美撞上。IN=教皇宮等主場館正式演出；OFF=1000+場獨立小劇場，滿街都是表演者發傳單。',tip:'🔥 不用特別買票，光是逛街看免費街頭表演就超精彩。想看 OFF 演出€10-25/場',addr:'Place du Palais des Papes, 84000 Avignon',gmap:'Palais+des+Papes+Avignon'},
+{type:'fest',name:'🎪 OFF 街頭表演攻略',desc:'7月的亞維儂全城都是舞台！演員穿戲服在街上發傳單、廣場有免費演出、教堂學校都變劇場。不用懂法文，很多舞蹈和肢體劇場超好看。',tip:'Place de l\'Horloge、Place Pie 廣場最多免費表演。下午開始到深夜都有',gmap:'Place+de+l+Horloge+Avignon'},
+{type:'fest',name:'🎟️ IN 正式演出推薦',desc:'教皇宮的 Cour d\'Honneur 是經典場地——露天石牆劇場，超震撼。4月起可上官網買票，€18-85。Carte 3 clés（€1）可享折扣票€10-25。',tip:'官網：festival-avignon.com｜4/5 起開放購票，早買位子好',gmap:'Cour+d+honneur+Palais+des+Papes+Avignon'},
+{type:'fest',name:'🅿️ 亞維儂停車建議',desc:'藝術節期間市區一位難求！停 Île Piot 免費停車場，有免費接駁船進城。或停 Parking des Italiens。',tip:'⚠️ 千萬別開進城牆內，路超窄又塞車',addr:'Île de la Barthelasse / Île Piot, 84000 Avignon',gmap:'Ile+Piot+parking+Avignon'},
+{type:'shop',name:'索格島週日古董市集',desc:'全歐最大古董市集。家具、首飾、舊書、古董亞麻布。',tip:'Day 7已排！',addr:'L\'Isle-sur-la-Sorgue',gmap:'Isle+sur+la+Sorgue+marche'},
+{type:'shop',name:'阿爾勒週六大市集',desc:'Boulevard des Lices，2公里長！起司蜂蜜香料布料。',tip:'食物南段，衣服北段',addr:'Boulevard des Lices, 13200 Arles',gmap:'Boulevard+des+Lices+Arles+marche'},
+{type:'photo',name:'瓦倫索薰衣草',desc:'7月初紫色花海。走D8小路避人潮。',tip:'清晨/傍晚光線最美',gmap:'Plateau+de+Valensole+lavande'},
+{type:'photo',name:'塞南克修道院',desc:'12世紀修道院+薰衣草=經典明信片。',tip:'有穿著規定',addr:'84220 Gordes',gmap:'Abbaye+Notre-Dame+de+Senanque'},
+{type:'photo',name:'紅土城 Roussillon',desc:'整座村莊赭紅色！像調色盤。離Gordes不遠。',tip:'走赭石步道約30min',gmap:'Roussillon+Vaucluse'},
+{type:'hidden',name:'碧泉村河邊步道',desc:'除了看湧泉，沿河散步非常清幽。水很清可以泡腳。',tip:'意外的療癒',gmap:'Fontaine+de+Vaucluse'},
+{type:'eat',name:'L\'Agape（亞維儂）',desc:'亞維儂城內質感餐廳，法式料理精緻但不拘謹。',tip:'Tiffany 推薦｜適合 Day 9 午餐或晚餐',addr:'21 Place des Corps Saints, 84000 Avignon',gmap:'L+Agape+21+Place+des+Corps+Saints+Avignon'},
+{type:'eat',name:'Le Goût du Jour（亞維儂）',desc:'亞維儂老城區的隱藏美食！部落客評為全趟旅程最好吃的一餐，法式家常料理CP值超高。',tip:'🔥 Tiffany 全程最推！午餐限定，要訂位',addr:'Avignon Old City',gmap:'Le+Gout+du+Jour+Avignon'},
+{type:'eat',name:'Chez Mamine（聖雷米早午餐）',desc:'聖雷米當地人氣早午餐店，在梧桐樹下露天用餐。',tip:'Tiffany 推薦｜Day 8 聖雷米可排這家',gmap:'Chez+Mamine+Saint+Remy+de+Provence'},
+{type:'eat',name:'Restaurant Omma（紅土城）',desc:'開在 Roussillon 懸崖邊的餐廳，用餐同時看赭紅峽谷美景。',tip:'Tiffany 推薦｜Day 7 石頭城路線可順道去',gmap:'Restaurant+Omma+Roussillon'},
+{type:'sight',name:'Roussillon 赭石步道 Le Sentier des Ocres',desc:'走進赭紅色的峽谷步道，像走進火星！30-60min 路線，整座山是彩色的。',tip:'穿不怕髒的鞋，紅土會沾！門票約 €3',gmap:'Sentier+des+Ocres+Roussillon'},
+{type:'sight',name:'L\'OCCITANE 歐舒丹工廠博物館',desc:'在 Manosque（Roussillon 附近），可預約免費導覽參觀歐舒丹製造過程＋花田。',tip:'Tiffany 推薦｜需提前官網預約！有小花園和商店',gmap:'L+OCCITANE+Musee+Manosque'},
+{type:'sight',name:'Moustiers-Sainte-Marie 陶瓷小鎮',desc:'夾在兩座峭壁之間的美麗小鎮，以手工彩繪陶瓷聞名。峽谷間掛著一顆金色星星。離聖十字湖很近。',tip:'Tiffany 推薦｜Day 6 聖十字湖可順道去！小鎮走 1-2hr',gmap:'Moustiers+Sainte+Marie'},
+{type:'sight',name:'Salin de Giraud 鹽田粉紅湖',desc:'卡馬格地區的鹽田，水面呈粉紅色（微生物造成）。附近還有 Plage de Piemanson 野沙灘。',tip:'Mandy 推薦｜需自駕，離阿爾勒約 40min',gmap:'Salin+de+Giraud'},
+{type:'eat',name:'Chez Lisette ☕（亞維儂）',desc:'亞維儂必吃 sacristan 酥！酥脆外層+杏仁粉+糖霜，搭配咖啡完美。店員超熱情。',tip:'📍 Avignon 城內｜來源：Observing Leslie',gmap:'Chez+Lisette+Avignon'},
+{type:'eat',name:'Maison Violette 🥐（亞維儂）',desc:'Place des Corps Saints 上的傳統法式麵包店。酥脆可頌、覆盆莓塔、各式法式蛋糕。',tip:'📍 Avignon｜來源：Wanderlog',addr:'Place des Corps Saints, Avignon',gmap:'Maison+Violette+Avignon'},
+{type:'eat',name:'Le Saint Chocolat 🍫（亞維儂）',desc:'巧克力甜點控天堂！馬卡龍是亞維儂最佳。可以坐在陽光灑落的小廣場上慢慢享用。',tip:'📍 Avignon｜來源：Observing Leslie',gmap:'Le+Saint+Chocolat+Avignon'},
+{type:'eat',name:'Boulangerie Leyris 🥖（索格島）',desc:'法美夫婦經營的麵包店，帶著紐約和普羅旺斯的雙重味道。Day 7 逛古董市集時必吃！',tip:'📍 Isle-sur-la-Sorgue｜來源：Wanderlog',gmap:'Boulangerie+Patisserie+Leyris+Isle+sur+la+Sorgue'}
+],aix:[
+{type:'food',name:'必吃 Calisson 杏仁糖',desc:'艾克斯名產！杏仁+蜜瓜+橘皮+糖霜。只有Aix做的才是正宗。',tip:'Roy René買最道地',gmap:'Confiserie+du+Roy+Rene+Aix-en-Provence'},
+{type:'food',name:'必吃 Bouillabaisse 馬賽魚湯',desc:'地中海鮮魚+番紅花+茴香。先上湯配蒜醬麵包，再上魚。',tip:'馬賽舊港吃，€40-80起',gmap:'Vieux+Port+Marseille+restaurant'},
+{type:'food',name:'必吃 Navettes 橙花小船餅乾',desc:'船形脆餅，橙花香。1781年就有的普羅旺斯經典。',tip:'Aix甜點店都有'},
+{type:'food',name:'必吃 海鮮拼盤 Fruits de Mer',desc:'生蠔+螯蝦+蝦+蟹+蛤蜊堆成塔！配白酒。',tip:'卡西斯漁港必點',gmap:'Port+de+Cassis+restaurant'},
+{type:'food',name:'必喝 Pastis 茴香酒',desc:'普羅旺斯人的開胃酒。透明加水變乳白色。茴香味很特別。',tip:'一小杯試試看'},
+{type:'eat',name:'Weibel甜點',desc:'Place Richelme上的名店。法式熱巧克力+蛋糕+calisson。',tip:'早餐或下午茶',addr:'2 Rue Chabrier, 13100 Aix-en-Provence',gmap:'Weibel+patisserie+Aix-en-Provence'},
+{type:'eat',name:'Épicerie Aix et Terra',desc:'在地美食雜貨。橄欖油、橄欖醬、核桃醬。可以試吃。',tip:'伴手禮好地方',addr:'6 Rue Boulegon, 13100 Aix-en-Provence',gmap:'Aix+et+Terra+Aix-en-Provence'},
+{type:'shop',name:'Confiserie du Roy René',desc:'最正宗Calisson老店。可參觀製作+試吃。',tip:'11 Rue Gaston Saporta',addr:'11 Rue Gaston de Saporta, 13100 Aix-en-Provence',gmap:'Confiserie+du+Roy+Rene+11+Rue+Gaston+de+Saporta+Aix-en-Provence'},
+{type:'shop',name:'Appartement Sézane',desc:'法國最紅輕奢女裝。Aix店氛圍很好。',tip:'你朋友會愛',addr:'22 Rue Thiers, 13100 Aix-en-Provence',gmap:'Sezane+Aix-en-Provence'},
+{type:'shop',name:'Rose et Marius 香氛',desc:'普羅旺斯風格。蠟燭、香水、香皂。',tip:'送禮自用都棒',addr:'20 Rue Thiers, 13100 Aix-en-Provence',gmap:'Rose+et+Marius+Aix-en-Provence'},
+{type:'shop',name:'法國藥妝掃貨指南',desc:'理膚寶水/雅漾/Bioderma卸妝水/Caudalie葡萄籽/Nuxe全效油。parapharmacie買便宜很多。',tip:'⭐Day 15掃貨日！',gmap:'pharmacie+parapharmacie+Aix-en-Provence'},
+{type:'photo',name:'MUCEM博物館',desc:'鏤空水泥格子外牆+地中海。現代建築超美。',tip:'下午光線好',addr:'1 Esplanade du J4, 13002 Marseille',gmap:'MUCEM+Marseille'},
+{type:'photo',name:'Calanques峽灣',desc:'白色峭壁+蔚藍海，船上拍最好。',tip:'手機防水袋必備',gmap:'Calanques+Cassis+bateau'},
+{type:'hidden',name:'Le Panier（馬賽）',desc:'馬賽最老街區。塗鴉+獨立小店。迷你蒙馬特。',tip:'舊港走5min',gmap:'Le+Panier+Marseille'},
+{type:'hidden',name:'Lourmarin文青鎮',desc:'獨立書店、藝廊、手工冰淇淋。加繆故居在這。',tip:'Day 15方案B',gmap:'Lourmarin+Vaucluse'},
+{type:'eat',name:'Toinou les Fruits de Mer',desc:'艾克斯的海鮮老店！各種生蠔、螯蝦、海鮮塔，價格比馬賽漁港合理。',tip:'Tiffany 推薦｜Cours Mirabeau 附近',addr:'3 Cours Saint-Louis, 13100 Aix-en-Provence',gmap:'Toinou+Aix+en+Provence'},
+{type:'shop',name:'Calisson 老店巡禮',desc:'除了 Roy René，還有 Brémono Fils（1880 年老鋪、更手工感）和 Léonard Parli（在地人最愛）。三家口味各異可以比較！',tip:'Lillian 推薦｜Rue Gaston de Saporta 一帶都有',gmap:'Leonard+Parli+Aix+en+Provence'},
+{type:'shop',name:'Papeterie Michel 便宜明信片',desc:'Cours Mirabeau 上的老文具店，明信片比觀光區便宜一半！',tip:'Lillian 推薦｜寫明信片必去',addr:'Cours Mirabeau, Aix-en-Provence',gmap:'Papeterie+Michel+Aix+en+Provence'},
+{type:'eat',name:'Pâtisserie Béchard 🥐',desc:'Cours Mirabeau 上百年老店！招牌 Calisson 甜點＋手工巧克力，也有各種法式糕點。裝潢優雅。',tip:'📍 Cours Mirabeau, Aix｜來源：Bacon is Magic',addr:'12 Cours Mirabeau, 13100 Aix-en-Provence',gmap:'Patisserie+Bechard+Cours+Mirabeau+Aix'},
+{type:'eat',name:'Riederer 蘋果塔 🍎',desc:'跟 Weibel 齊名的 Aix 老牌甜點店。招牌蘋果塔（tarte de pommes）是必點。',tip:'📍 Aix-en-Provence｜來源：Observing Leslie',gmap:'Riederer+Aix+en+Provence'},
+{type:'eat',name:'Weibel — 法式下午茶 ☕',desc:'1954 年開業的名店。法式熱巧克力+Calisson+手工冰淇淋，在優雅的茶室裡享用。',tip:'📍 Place Richelme, Aix｜已在行程表',addr:'2 Rue Chabrier, 13100 Aix',gmap:'Weibel+patisserie+Aix-en-Provence'}
+]};
+
+const PK={'📄 證件':['護照','電子機票列印','飯店確認信×3','Airbnb確認信','租車預約單','國際駕照','台灣駕照','旅遊保險','信用卡Visa/Master','歐元現金','退稅用筆'],'👗 衣物':['洋裝×3-4','短褲/裙×2','薄長褲×1','薄外套×1','泳衣×1','內衣褲×7','睡衣','好走鞋×1','涼鞋×1','帽子','墨鏡'],'🧴 保養':['防曬SPF50','曬後修復','洗面乳','保濕','化妝品','卸妝','牙刷牙膏','洗髮潤髮','小毛巾'],'📱 3C':['手機+充電線','行動電源','歐規轉接頭','相機+記憶卡+充電','耳機'],'💊 健康':['腸胃藥','止痛藥','OK繃','個人藥物','口罩'],'✈️ 機上':['頸枕','眼罩','耳塞','保濕噴霧<100ml','零食','替換衣物'],'🚗 自駕':['車用手機架','車充線','離線地圖','零錢停車','水+零食']};
+
+// MAP MARKERS
+const MARKERS=[
+{lat:43.7049,lng:7.2620,name:'🚃 Nice-Ville 火車站',desc:'TER 火車去芒通 / 摩納哥 / 昂蒂布',color:'blue',cat:'nice'},
+{lat:43.6946,lng:7.2580,name:'🏨 Hotel Solara',desc:'Nice住宿 6/30-7/4',color:'blue',cat:'hotel'},
+{lat:43.6880,lng:4.6060,name:'🏠 Airbnb Fourques',desc:'Arles住宿 7/4-7/9',color:'orange',cat:'hotel'},
+{lat:43.5004,lng:5.3988,name:'🏨 Le Mas des Ecureuils',desc:'Aix住宿 7/9-7/14',color:'purple',cat:'hotel'},
+{lat:43.6584,lng:7.2158,name:'✈️ NCE 尼斯機場',desc:'抵達',color:'gray',cat:'transport'},
+{lat:43.4393,lng:5.2214,name:'✈️ MRS 馬賽機場',desc:'離開',color:'gray',cat:'transport'},
+{lat:43.6948,lng:7.2823,name:'🏰 城堡山',desc:'Day2 日落全景',color:'blue',cat:'nice'},
+{lat:43.7744,lng:7.5030,name:'🍋 芒通Menton',desc:'Day3 彩色檸檬城',color:'blue',cat:'nice'},
+{lat:43.7384,lng:7.4246,name:'🎰 摩納哥Monaco',desc:'Day3 賭場皇宮',color:'blue',cat:'nice'},
+{lat:43.7282,lng:7.3613,name:'🦅 埃茲Eze',desc:'Day4 鷹巢村',color:'blue',cat:'nice'},
+{lat:43.6910,lng:7.3321,name:'🌸 Villa Ephrussi',desc:'Day4 粉紅別墅',color:'blue',cat:'nice'},
+{lat:43.5808,lng:7.1251,name:'🎨 昂蒂布Antibes',desc:'Day5 畢卡索博物館',color:'blue',cat:'nice'},
+{lat:43.7661,lng:6.2167,name:'💎 聖十字湖',desc:'Day6 蒂芬妮綠',color:'orange',cat:'arles'},
+{lat:43.8370,lng:5.9827,name:'💜 瓦倫索Valensole',desc:'Day6 薰衣草花海',color:'orange',cat:'arles'},
+{lat:43.9196,lng:5.0518,name:'🏛️ 索格島',desc:'Day7 古董市集',color:'orange',cat:'arles'},
+{lat:43.9122,lng:5.2007,name:'🪨 石頭城Gordes',desc:'Day7 全景',color:'orange',cat:'arles'},
+{lat:43.9277,lng:5.1877,name:'⛪ 塞南克修道院',desc:'Day7 薰衣草',color:'orange',cat:'arles'},
+{lat:43.7889,lng:4.8587,name:'🌻 聖雷米St-Rémy',desc:'Day8 梵谷',color:'orange',cat:'arles'},
+{lat:43.7441,lng:4.7965,name:'🎭 光影採石場',desc:'Day8 Les Baux',color:'orange',cat:'arles'},
+{lat:43.6766,lng:4.6278,name:'🏟️ 阿爾勒Arles',desc:'Day8,10 競技場',color:'orange',cat:'arles'},
+{lat:43.9493,lng:4.8055,name:'👑 教皇宮 Palais des Papes',desc:'Day9 藝術節IN主場地｜Cour d\'Honneur露天劇場',color:'orange',cat:'arles'},
+{lat:43.9531,lng:4.8028,name:'🎭 Place de l\'Horloge',desc:'藝術節OFF街頭表演集中地',color:'orange',cat:'arles'},
+{lat:43.9536,lng:4.8093,name:'🅿️ Île Piot停車場',desc:'藝術節免費停車+免費接駁船',color:'orange',cat:'arles'},
+{lat:43.9470,lng:4.5355,name:'🏗️ 嘉德水道橋',desc:'Day10 Pont du Gard',color:'orange',cat:'arles'},
+{lat:43.5297,lng:5.4474,name:'⛲ 艾克斯市中心',desc:'Day11,13 噴泉+市集',color:'purple',cat:'aix'},
+{lat:43.2141,lng:5.5379,name:'🚤 卡西斯Cassis',desc:'Day12 峽灣',color:'purple',cat:'aix'},
+{lat:43.2965,lng:5.3698,name:'⚓ 馬賽Marseille',desc:'Day14 魚湯+MUCEM',color:'purple',cat:'aix'},
+{lat:43.7652,lng:5.3639,name:'📚 Lourmarin',desc:'Day15 文青鎮',color:'purple',cat:'aix'},
+{lat:43.7174,lng:6.2625,name:'🏺 Moustiers-Sainte-Marie',desc:'陶瓷小鎮，近聖十字湖',color:'orange',cat:'arles'},
+{lat:43.8368,lng:5.7836,name:'🌿 L\'OCCITANE 工廠',desc:'歐舒丹博物館+花田',color:'orange',cat:'arles'},
+{lat:43.6311,lng:4.3762,name:'🩷 Salin de Giraud',desc:'粉紅鹽田',color:'orange',cat:'arles'},
+{lat:43.6949,lng:7.1192,name:'🎨 Saint-Paul de Vence',desc:'藝術山城',color:'blue',cat:'nice'},
+];
+
+const SK='sf2026v3';
+let st=load();
+let hideVisited=false;
+function load(){try{const s=localStorage.getItem(SK);if(s){const d=JSON.parse(s);if(!d.v)d.v={};if(!d.cx)d.cx={};if(!d.cpi)d.cpi={};return d;}return{a:{},p:{},o:{},v:{},cx:{},cpi:{}};}catch(e){return{a:{},p:{},o:{},v:{},cx:{},cpi:{}};}}
+function save(){localStorage.setItem(SK,JSON.stringify(st));}
+
+const TM={food:['🍽️','tf'],sight:['👀','ts'],transport:['🚌','tt'],hotel:['🏨','th'],photo:['📸','tp'],shop:['🛍️','tsh']};
+const DRV={
+5:{km:'~260km',time:'約3.5小時',diff:2,fuel:'⛽ 上A8後第一個Aire加滿（約30–40min後）',warn:null},
+6:{km:'~150km',time:'約2.5小時',diff:3,fuel:'⛽ 出發前在Arles Leclerc加油',warn:'塞南克D177極窄，單線道，遊覽車也來。慢慢讓車，或在坡下遠眺即可'},
+7:{km:'~100km',time:'約1.5小時',diff:2,fuel:'⛽ 沿路有加油站，無需特別計畫',warn:null},
+8:{km:'~90km',time:'約1.5小時',diff:1,fuel:'⛽ 無需特別計畫',warn:null},
+9:{km:'~120km',time:'約1.5小時',diff:1,fuel:'⛽ Arles附近Leclerc順便加油',warn:null},
+10:{km:'~80km',time:'約1小時',diff:1,fuel:'⛽ 無需特別計畫',warn:null},
+11:{km:'~90km',time:'約1.5小時',diff:2,fuel:'⛽ Cassis附近有加油站',warn:null},
+15:{km:'~40km',time:'40分鐘',diff:1,fuel:'⛽ Aix Les Milles Leclerc先加滿',warn:'🇫🇷 國慶日！可能有遊行封路，提早1小時出發'}
+};
+function drvDots(n){let s='<span class="diff-bar">';for(let i=1;i<=5;i++)s+=`<span class="diff-dot ${i<=n?'diff-on':'diff-off'}"></span>`;return s+'</span>';}
+const TIME_OFFSET=90;
+function shiftTime(t,fixed){if(!t||fixed)return t;const m=t.match(/^(\d{1,2}):(\d{2})$/);if(!m)return t;let h=parseInt(m[1]),mn=parseInt(m[2]);mn+=TIME_OFFSET;h+=Math.floor(mn/60);mn=mn%60;return`${String(h).padStart(2,'0')}:${String(mn).padStart(2,'0')}`;}
+
+function renderTabs(){document.getElementById('dTabs').innerHTML=DAYS.map((d,i)=>`<div class="tab" data-idx="${i}" onclick="goDay(${i})">D${d.day}</div>`).join('');}
+
+function renderDays(){
+document.getElementById('dCards').innerHTML=DAYS.map((d,di)=>{
+const cxKey=`cx-${di}`;
+const cxActs=st.cx[cxKey]||[];
+const allActs=[...d.a,...cxActs];
+const tot=allActs.length,ck=allActs.filter((_,ai)=>st.a[`${di}-${ai}`]).length,dn=ck===tot&&tot>0,op=st.o[di];
+const acts=allActs.map((a,ai)=>{const k=`${di}-${ai}`,c=st.a[k];const isCx=ai>=d.a.length;const tgs=(a.tags||[]).map(t=>{const[e,cl]=TM[t]||['',''];return`<span class="tg ${cl}">${e}</span>`;}).join('');const nt=a.note?`<div class="acn">💡 ${sp(a.note)}</div>`:'';const gmapLink=a.g?`<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.g.replace(/\+/g,' '))}" target="_blank" rel="noopener" class="dml">📍</a><a href="https://waze.com/ul?q=${encodeURIComponent(a.g.replace(/\+/g,' '))}&navigate=yes" target="_blank" rel="noopener" class="dml">🚗</a>`:'';
+const delBtn=isCx?`<span style="font-size:.68em;color:#e74c3c;cursor:pointer;margin-left:4px" onclick="removeCx(${di},${ai-d.a.length})">✕</span>`:'';
+return`<div class="ac"><input type=checkbox ${c?'checked':''} onchange="tA(${di},${ai},this.checked)"><div class="acc">${a.time?`<div class="act">${shiftTime(a.time,a.fixed)}${a.fixed?'<span style="font-size:.65em;color:var(--ar);margin-left:3px">✈</span>':''}</div>`:''}<div class="acx ${c?'ck':''}">${isCx?'<span class="tg" style="background:#E8F5E0;color:#5B9A2F">＋探索</span>':''}${tgs}${sp(a.text)}${gmapLink}${delBtn}</div>${nt}</div></div>`;}).join('');
+const drv=DRV[di];
+const drvHtml=drv?`<div class="drv-card"><div class="drv-hd">🚗 今日自駕</div><div class="drv-meta"><span>📏 <strong>${drv.km}</strong></span><span>⏱ <strong>${drv.time}</strong></span><span>難度 ${drvDots(drv.diff)}</span></div><div class="drv-fuel">${drv.fuel}</div>${drv.warn?`<div class="drv-warn">⚠️ ${drv.warn}</div>`:''}</div>`:'';
+return`<div class="dc" id="d-${di}"><div class="dh ${d.t}" onclick="tD(${di})"><div><div class="dn">Day ${d.day}</div><div class="dd">${d.date}</div></div><div class="dt2">${sp(d.title)}</div><div class="dp ${dn?'done':''}">${ck}/${tot}</div><span class="chv ${op?'open':''}">▼</span></div><div class="db ${op?'open':''}">${drvHtml}${acts}</div></div>`;}).join('');
+}
+
+function removeCx(di,ci){
+const cxKey=`cx-${di}`;
+if(st.cx[cxKey]){st.cx[cxKey].splice(ci,1);if(st.cx[cxKey].length===0)delete st.cx[cxKey];}
+save();renderDays();showToast('已移除');
+}
+function tD(i){st.o[i]=!st.o[i];save();renderDays();}
+function tA(d,a,c){st.a[`${d}-${a}`]=c;save();renderDays();}
+function goDay(i){st.o[i]=true;save();renderDays();document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelector(`.tab[data-idx="${i}"]`).classList.add('active');document.getElementById(`d-${i}`).scrollIntoView({behavior:'smooth',block:'start'});}
+
+let cR='nice';
+function sR(r,el){cR=r;document.querySelectorAll('.etb').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderEx();}
+function renderEx(){
+const its=EX[cR]||[];
+const tl={food:'🍴 當地必吃',eat:'🍽️ 餐廳推薦',shop:'🛍️ 逛街購物',photo:'📸 拍照景點',hidden:'💎 隱藏版',market:'🏪 市集',fest:'🎭 藝術節',sight:'👀 景點推薦'};
+const tc={food:'yfd',eat:'ye',shop:'ysh',photo:'yp',hidden:'yh',market:'ym',fest:'',sight:'yp'};
+const vCount=its.filter((_,i)=>st.v[`${cR}-${i}`]).length;
+document.getElementById('exCount').textContent=vCount>0?`✅ ${vCount}/${its.length} 已去過`:'';
+document.getElementById('exCards').innerHTML=its.map((it,idx)=>{
+const vk=`${cR}-${idx}`,isV=st.v[vk];
+const gmapLink=it.gmap?`<div class="ec-addr">📍 ${sp(it.addr||'')} <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(it.gmap.replace(/\+/g,' '))}" target="_blank" rel="noopener">→ Google Maps</a> ／ <a href="https://waze.com/ul?q=${encodeURIComponent(it.gmap.replace(/\+/g,' '))}&navigate=yes" target="_blank" rel="noopener">→ Waze</a></div>`:'';
+const actions=`<div class="ec-actions"><button class="ec-btn ec-btn-add" onclick="openDayPicker('${cR}',${idx})">📅 加到行程</button><button class="ec-btn ec-btn-visit ${isV?'done':''}" onclick="toggleVisit('${cR}',${idx})">${isV?'✅ 已去過':'☐ 標記去過'}</button></div>`;
+if(it.type==='fest'){return`<div class="fest-card ${isV?'visited':''}"><span class="fest-tag">🎭 雅維農藝術節</span><h4>${sp(it.name)}</h4><div class="ecd">${sp(it.desc)}</div>${it.tip?`<div class="ect">💡 ${sp(it.tip)}</div>`:''}${gmapLink}${actions}</div>`;}
+return`<div class="ec ${isV?'visited':''}"><span class="ety ${tc[it.type]}">${tl[it.type]}</span><h4>${sp(it.name)}</h4><div class="ecd">${sp(it.desc)}</div>${it.tip?`<div class="ect">💡 ${sp(it.tip)}</div>`:''}${gmapLink}${actions}</div>`;
+}).join('');
+}
+
+function toggleVisit(r,idx){
+const vk=`${r}-${idx}`;
+st.v[vk]=!st.v[vk];
+if(!st.v[vk])delete st.v[vk];
+save();renderEx();
+}
+
+function toggleHideVisited(){
+hideVisited=!hideVisited;
+const btn=document.getElementById('hideVisitedBtn');
+btn.classList.toggle('active',hideVisited);
+btn.textContent=hideVisited?'👀 顯示全部':'🙈 收合已去過';
+document.getElementById('exCards').parentElement.classList.toggle('hide-visited',hideVisited);
+}
+
+let pendingAdd=null;
+function openDayPicker(r,idx){
+const it=(EX[r]||[])[idx];if(!it)return;
+pendingAdd={r,idx,name:it.name,type:it.type,tip:it.tip||'',gmap:it.gmap||''};
+document.getElementById('dpSub').textContent=`「${it.name}」`;
+const grid=document.getElementById('dpGrid');
+grid.innerHTML=DAYS.map((d,di)=>`<div class="dp-day ${d.t}" onclick="addToDay(${di})"><div class="dp-n">D${d.day}</div><div class="dp-d">${d.date.slice(0,5)}</div></div>`).join('');
+document.getElementById('dayPickerOverlay').classList.add('show');
+}
+
+function closeDayPicker(e){
+if(e&&e.target!==document.getElementById('dayPickerOverlay'))return;
+document.getElementById('dayPickerOverlay').classList.remove('show');
+pendingAdd=null;
+}
+
+function addToDay(di){
+if(!pendingAdd)return;
+const p=pendingAdd;
+const cxKey=`cx-${di}`;
+if(!st.cx[cxKey])st.cx[cxKey]=[];
+const newAct={time:'',text:p.name,tags:[p.type==='food'||p.type==='eat'?'food':p.type==='shop'?'shop':p.type==='photo'?'photo':'sight'],note:p.tip};
+if(p.gmap)newAct.g=p.gmap;
+st.cx[cxKey].push(newAct);
+save();
+closeDayPicker();
+renderDays();
+showToast(`✅ 已加到 Day ${DAYS[di].day}！`);
+}
+
+function renderPk(){
+if(!st.cpi)st.cpi={};
+// populate category dropdown
+const sel=document.getElementById('pkNewCat');
+if(sel&&sel.options.length===0){const cats=Object.keys(PK);cats.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});const o=document.createElement('option');o.value='__new';o.textContent='＋ 新分類';sel.appendChild(o);}
+// merge custom items into PK categories for rendering
+const merged={};Object.entries(PK).forEach(([c,its])=>{merged[c]=[...its];});
+Object.entries(st.cpi).forEach(([c,arr])=>{if(!merged[c])merged[c]=[];arr.forEach(it=>{if(!merged[c].includes(it))merged[c].push(it);});});
+document.getElementById('pkList').innerHTML=Object.entries(merged).map(([c,its])=>{
+const h=its.map((it,i)=>{const k=`p-${c}-${i}`,d=st.p[k];const isCustom=st.cpi[c]&&st.cpi[c].includes(it);return`<div class="pk-i ${d?'ck':''}"><input type=checkbox ${d?'checked':''} onchange="tP('${k}',this.checked)"><span>${it}</span>${isCustom?`<button onclick="removePkItem('${c.replace(/'/g,"\\'")}','${it.replace(/'/g,"\\'")}')" style="margin-left:auto;border:none;background:none;color:var(--t2);font-size:.75em;cursor:pointer;padding:2px 4px">✕</button>`:''}</div>`;}).join('');
+return`<div class="pk-c"><h4>${c}</h4>${h}</div>`;}).join('');
+}
+function tP(k,c){st.p[k]=c;save();renderPk();}
+function addPkItem(){
+const inp=document.getElementById('pkNewItem');const sel=document.getElementById('pkNewCat');
+let txt=inp.value.trim();if(!txt)return;
+let cat=sel.value;
+if(cat==='__new'){cat=prompt('新分類名稱（例如：🎁 伴手禮）');if(!cat)return;
+const o=document.createElement('option');o.value=cat;o.textContent=cat;sel.insertBefore(o,sel.lastElementChild);sel.value=cat;}
+if(!st.cpi)st.cpi={};if(!st.cpi[cat])st.cpi[cat]=[];
+if(st.cpi[cat].includes(txt)||(PK[cat]&&PK[cat].includes(txt))){showToast('這項已經在清單裡了');return;}
+st.cpi[cat].push(txt);save();renderPk();inp.value='';showToast(`✅ 已加到${cat}！`);
+}
+function removePkItem(cat,item){
+if(!st.cpi||!st.cpi[cat])return;
+st.cpi[cat]=st.cpi[cat].filter(x=>x!==item);
+if(st.cpi[cat].length===0)delete st.cpi[cat];
+save();renderPk();showToast('已移除');
+}
+
+let mapInit=false;
+function initMap(){
+if(mapInit)return;mapInit=true;
+const m=L.map('map').setView([43.75,5.8],8);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'©OSM',maxZoom:18}).addTo(m);
+const colors={blue:'#2B8FBF',orange:'#E8734A',purple:'#8B5CF6',gray:'#94A3B8'};
+MARKERS.forEach(mk=>{
+const col=colors[mk.color]||'#333';
+const icon=L.divIcon({className:'',html:`<div style="background:${col};width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>`,iconSize:[12,12],iconAnchor:[6,6]});
+L.marker([mk.lat,mk.lng],{icon}).addTo(m).bindPopup(`<b>${sp(mk.name)}</b><br><span style="font-size:.85em;color:#aaa">${sp(mk.desc)}</span>`);
+});
+setTimeout(()=>m.invalidateSize(),200);
+}
+
+function sw(v,el){
+document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+document.getElementById(`v-${v}`).classList.add('active');
+document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+el.classList.add('active');
+if(v==='map')setTimeout(initMap,100);
+}
+
+function shareTrip(){
+let t=`🇫🇷 南法17天14夜 2026/06/29-07/15\n\n✈️ 去：6/29 21:45 TPE→6/30 09:10 NCE\n✈️ 回：7/14 19:05 MRS→7/15 17:55 TPE\n\n🏨 住宿：\n① Nice Hotel Solara 6/30-7/4\n② Fourques Airbnb 7/4-7/9\n③ Aix Le Mas des Ecureuils 7/9-7/14\n🚗 租車 7/4-14\n\n`;
+DAYS.forEach((d,di)=>{t+=`📍D${d.day}｜${d.date} ${d.title}\n`;d.a.forEach(a=>{t+=`  ${a.time||''} ${a.text}\n`;});const cx=st.cx[`cx-${di}`]||[];cx.forEach(a=>{t+=`  ＋ ${a.text}\n`;});t+=`\n`;});
+navigator.clipboard.writeText(t).then(()=>showToast('已複製！貼到LINE給朋友📋')).catch(()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);showToast('已複製！📋');});
+}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// NOTES
+function renderNotes(){
+const notes=st.notes||[];
+document.getElementById('noteList').innerHTML=notes.length===0?'<p style="font-size:.8em;color:var(--t2);text-align:center;padding:20px 0">還沒有筆記，點上面新增一則吧！</p>':notes.map((n,i)=>`<div class="note-card"><textarea placeholder="寫點什麼..." oninput="updateNote(${i},this.value)">${n.text||''}</textarea><div class="note-meta"><span class="note-time">${n.time||''}</span><button class="note-del" onclick="deleteNote(${i})">刪除</button></div></div>`).join('');
+}
+function addNote(){
+if(!st.notes)st.notes=[];
+const now=new Date();
+const ts=`${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+st.notes.unshift({text:'',time:ts});
+save();renderNotes();
+const ta=document.querySelector('#noteList textarea');
+if(ta)ta.focus();
+}
+function updateNote(i,val){
+if(!st.notes)return;
+st.notes[i].text=val;save();
+}
+function deleteNote(i){
+if(!st.notes)return;
+st.notes.splice(i,1);save();renderNotes();
+showToast('已刪除筆記');
+}
+
+// SYNC
+function exportState(){
+const data=JSON.stringify(st);
+const compressed=btoa(unescape(encodeURIComponent(data)));
+navigator.clipboard.writeText(compressed).then(()=>showToast('✅ 已複製同步碼！傳給朋友吧')).catch(()=>{
+const ta=document.createElement('textarea');ta.value=compressed;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ 已複製同步碼！');
+});
+}
+function showImport(){document.getElementById('syncImportBox').style.display='block';}
+function hideSyncBox(){document.getElementById('syncImportBox').style.display='none';document.getElementById('syncInput').value='';}
+function decodeSync(raw){
+try{return JSON.parse(decodeURIComponent(escape(atob(raw.trim()))));}catch(e){return null;}
+}
+function importState(){
+const raw=document.getElementById('syncInput').value;
+const d=decodeSync(raw);
+if(!d){showToast('❌ 代碼格式不對，請重新貼上');return;}
+if(!confirm('確定要覆蓋目前的資料嗎？（你目前的勾選/筆記會被朋友的版本取代）'))return;
+Object.assign(st,{a:d.a||{},p:d.p||{},o:d.o||{},v:d.v||{},cx:d.cx||{},cpi:d.cpi||{},notes:d.notes||[]});
+save();renderTabs();renderDays();renderEx();renderPk();renderNotes();hideSyncBox();showToast('✅ 已匯入朋友的資料！');
+}
+function mergeState(){
+const raw=document.getElementById('syncInput').value;
+const d=decodeSync(raw);
+if(!d){showToast('❌ 代碼格式不對，請重新貼上');return;}
+// merge: keep both, don't overwrite existing
+if(d.a)Object.keys(d.a).forEach(k=>{if(!(k in st.a))st.a[k]=d.a[k];});
+if(d.p)Object.keys(d.p).forEach(k=>{if(!(k in st.p))st.p[k]=d.p[k];});
+if(d.o)Object.keys(d.o).forEach(k=>{if(!(k in st.o))st.o[k]=d.o[k];});
+if(d.v)Object.keys(d.v).forEach(k=>{if(!(k in st.v))st.v[k]=d.v[k];});
+if(d.cx)Object.keys(d.cx).forEach(k=>{
+if(!st.cx[k])st.cx[k]=d.cx[k];
+else{const exist=st.cx[k].map(x=>x.text);d.cx[k].forEach(x=>{if(!exist.includes(x.text))st.cx[k].push(x);});}
+});
+if(d.cpi)Object.keys(d.cpi).forEach(k=>{
+if(!st.cpi)st.cpi={};if(!st.cpi[k])st.cpi[k]=[];
+d.cpi[k].forEach(it=>{if(!st.cpi[k].includes(it))st.cpi[k].push(it);});
+});
+if(d.notes&&d.notes.length){
+if(!st.notes)st.notes=[];
+const existTxt=st.notes.map(n=>n.text);
+d.notes.forEach(n=>{if(!existTxt.includes(n.text))st.notes.push(n);});
+}
+save();renderTabs();renderDays();renderEx();renderPk();renderNotes();hideSyncBox();showToast('🔀 已合併！兩邊的資料都保留了');
+}
+
+renderTabs();renderDays();renderEx();renderPk();renderNotes();
+</script>
+</body>
+</html>
