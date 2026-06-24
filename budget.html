@@ -462,6 +462,73 @@ function out(d){
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">✏️ 修改記錄</div>
+    <form id="editForm" onsubmit="submitEdit(event)">
+      <input type="hidden" id="e_id">
+      <div class="form-group">
+        <label class="form-label">店名 / 說明</label>
+        <input type="text" class="form-input" id="e_store" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">金額（EUR €）</label>
+        <input type="number" class="form-input" id="e_eur" step="0.01" required oninput="previewTwd('e_eur','e_twdHint')">
+        <div class="twd-hint">≈ NT$<span id="e_twdHint">0</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">類別</label>
+        <div class="chips" id="e_chips">
+          <button type="button" class="chip" data-cat="餐飲" onclick="pickEditChip(this)">🍽️ 餐飲</button>
+          <button type="button" class="chip" data-cat="購物" onclick="pickEditChip(this)">🛍️ 購物</button>
+          <button type="button" class="chip" data-cat="交通" onclick="pickEditChip(this)">🚗 交通</button>
+          <button type="button" class="chip" data-cat="住宿" onclick="pickEditChip(this)">🏨 住宿</button>
+          <button type="button" class="chip" data-cat="景點" onclick="pickEditChip(this)">🌻 景點</button>
+          <button type="button" class="chip" data-cat="其他" onclick="pickEditChip(this)">📦 其他</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">付款方式</label>
+        <select class="form-select" id="e_pay">
+          <option value="現金">💶 現金</option>
+          <option value="信用卡">💳 信用卡</option>
+          <option value="行動支付">📱 行動支付</option>
+          <option value="其他">📦 其他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">誰付的</label>
+        <div class="person-sel">
+          <button type="button" class="person-sel-btn" id="ep_vais" onclick="pickEditPerson('Vais')">🧣 Vais</button>
+          <button type="button" class="person-sel-btn" id="ep_niou" onclick="pickEditPerson('妞')">🐰 妞</button>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-label">🤝 共同分攤</div>
+          <div class="toggle-sub">兩人各付一半</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="e_shared">
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+      <div class="form-group" style="margin-top:16px;">
+        <label class="form-label">備註（選填）</label>
+        <input type="text" class="form-input" id="e_notes">
+      </div>
+      <div class="form-group">
+        <label class="form-label">日期</label>
+        <input type="date" class="form-input" id="e_date" required>
+      </div>
+      <button type="submit" class="btn-primary">儲存修改 ✓</button>
+      <button type="button" class="btn-secondary" onclick="closeModal('editModal')">取消</button>
+    </form>
+  </div>
+</div>
+
 <!-- Bottom Nav -->
 <nav class="bottom-nav">
   <button class="nav-btn active" onclick="showPanel('home',this)">
@@ -494,6 +561,8 @@ let cfg = { ...DEFAULT_SETTINGS };
 let expenses = [];
 let selCategory = '餐飲';
 let selPerson = 'Vais';
+let editCategory = '餐飲';
+let editPerson = 'Vais';
 let charts = {};
 
 const CAT_EMOJI = { '餐飲':'🍽️','購物':'🛍️','交通':'🚗','住宿':'🏨','景點':'🌻','其他':'📦' };
@@ -906,9 +975,10 @@ function expItem(exp, del=false) {
   const isVais = exp.paidBy === 'Vais';
   const avatarCls = isVais ? 'avatar-vais' : 'avatar-niou';
   const avatarEmoji = isVais ? '🧣' : '🐰';
-  const delBtn = del ? `<button class="exp-delete" onclick="delExpense('${exp.id}')">🗑</button>` : '';
+  const delBtn = del ? `<button class="exp-delete" onclick="event.stopPropagation();delExpense('${exp.id}')">🗑</button>` : '';
   const syncBadge = exp.synced ? '' : `<span style="font-size:9px;color:var(--warning);">●</span>`;
-  return `<div class="expense-item" data-id="${exp.id}">
+  const clickAttr = del ? `onclick="editExpense('${exp.id}')" style="cursor:pointer"` : '';
+  return `<div class="expense-item" data-id="${exp.id}" ${clickAttr}>
     <div class="exp-avatar ${avatarCls}">${avatarEmoji}</div>
     <div class="exp-info">
       <div class="exp-name">${exp.store} ${syncBadge}</div>
@@ -954,6 +1024,62 @@ function renderFullList() {
     html += arr.map(e=>expItem(e,true)).join('');
   });
   el.innerHTML = html;
+}
+
+// EDIT EXPENSE
+function editExpense(id) {
+  const exp = expenses.find(e => e.id === id);
+  if (!exp) return;
+  editCategory = exp.category;
+  editPerson = exp.paidBy;
+  document.getElementById('e_id').value = exp.id;
+  document.getElementById('e_store').value = exp.store;
+  document.getElementById('e_eur').value = exp.amountEur;
+  document.getElementById('e_twdHint').textContent = exp.amountTwd.toLocaleString();
+  document.getElementById('e_pay').value = exp.payment;
+  document.getElementById('e_shared').checked = exp.isShared;
+  document.getElementById('e_notes').value = exp.notes || '';
+  document.getElementById('e_date').value = exp.date;
+  document.querySelectorAll('#e_chips .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === exp.category));
+  document.getElementById('ep_vais').classList.toggle('active', exp.paidBy === 'Vais');
+  document.getElementById('ep_niou').classList.toggle('active', exp.paidBy === '妞');
+  document.getElementById('editModal').classList.add('show');
+}
+
+function pickEditChip(el) {
+  editCategory = el.dataset.cat;
+  el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+function pickEditPerson(p) {
+  editPerson = p;
+  document.getElementById('ep_vais').classList.toggle('active', p === 'Vais');
+  document.getElementById('ep_niou').classList.toggle('active', p === '妞');
+}
+
+async function submitEdit(e) {
+  e.preventDefault();
+  const id = document.getElementById('e_id').value;
+  const eur = parseFloat(document.getElementById('e_eur').value);
+  const updated = {
+    ...expenses.find(ex => ex.id === id),
+    store: document.getElementById('e_store').value,
+    amountEur: eur,
+    amountTwd: Math.round(eur * cfg.rate),
+    category: editCategory,
+    payment: document.getElementById('e_pay').value,
+    paidBy: editPerson,
+    isShared: document.getElementById('e_shared').checked,
+    notes: document.getElementById('e_notes').value,
+    date: document.getElementById('e_date').value,
+    synced: false,
+  };
+  expenses = expenses.map(ex => ex.id === id ? updated : ex);
+  save(); renderAll(); closeModal('editModal'); showToast('✓ 已修改');
+  if (cfg.scriptUrl) {
+    await syncToSheets({ id }, 'del');
+    syncToSheets(updated, 'add');
+  }
 }
 
 function delExpense(id) {
