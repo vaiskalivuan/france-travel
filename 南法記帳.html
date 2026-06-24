@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🇫🇷 南法記帳</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #7C3AED;
+  --primary-light: #EDE9FE;
+  --secondary: #F59E0B;
+  --bg: #F5F5F7;
+  --card: #FFFFFF;
+  --text: #1C1C1E;
+  --text-light: #8E8E93;
+  --border: #E5E5EA;
+  --success: #34C759;
+  --warning: #FF9500;
+  --danger: #FF3B30;
+  --shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --radius: 18px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+  background: var(--bg); color: var(--text);
+  max-width: 430px; margin: 0 auto;
+  min-height: 100vh; padding-bottom: 85px;
+}
+.header {
+  background: linear-gradient(145deg, #7C3AED 0%, #A78BFA 100%);
+  color: white; padding: 52px 22px 28px;
+  position: relative; overflow: hidden;
+}
+.header::before {
+  content: ''; position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: rgba(255,255,255,0.07); pointer-events: none;
+}
+.header::after {
+  content: '🇫🇷'; position: absolute;
+  right: -10px; top: 10px; font-size: 90px;
+  opacity: 0.12; transform: rotate(-10deg); pointer-events: none;
+}
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.header-trip { font-size: 13px; opacity: 0.85; font-weight: 600; letter-spacing: 0.2px; }
+.settings-btn {
+  background: rgba(255,255,255,0.22); border: none; border-radius: 50%;
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; color: white; flex-shrink: 0; transition: background 0.2s;
+}
+.settings-btn:active { background: rgba(255,255,255,0.35); }
+.header-amount { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; }
+.header-twd { font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: 500; }
+.day-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.22); padding: 5px 13px;
+  border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 12px;
+  backdrop-filter: blur(4px);
+}
+.card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px; }
+.icon-orange { background: #FFF0E0; }
+.icon-blue   { background: #E3EEFF; }
+.icon-green  { background: #E3F9EE; }
+.icon-yellow { background: #FFF8E0; }
+.icon-purple { background: #EDE9FE; }
+.icon-teal   { background: #E0F7F5; }
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 16px 0; }
+.card { background: var(--card); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+.card-wide { grid-column: span 2; }
+.card-label { font-size: 11px; color: var(--text-light); font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-value { font-size: 22px; font-weight: 800; }
+.card-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+.budget-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+.budget-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--success), var(--secondary)); transition: width 0.5s ease; }
+.budget-fill.warn { background: linear-gradient(90deg, var(--warning), var(--danger)); }
+.person-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 16px 0; }
+.person-card { background: var(--card); border-radius: var(--radius); padding: 18px 16px; box-shadow: var(--shadow); text-align: center; }
+.person-avatar { font-size: 26px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+.avatar-vais { background: #EDE9FE; }
+.avatar-niou { background: #E8F4FF; }
+.person-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.person-amount { font-size: 20px; font-weight: 800; color: var(--primary); }
+.person-detail-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--text-light); margin-top: 3px; }
+.person-detail-row span:last-child { font-weight: 600; color: var(--text); }
+.section-title { font-size: 16px; font-weight: 700; padding: 20px 16px 10px; display: flex; justify-content: space-between; align-items: center; }
+.section-action { font-size: 12px; color: var(--primary); font-weight: 500; background: none; border: none; cursor: pointer; font-family: inherit; }
+.expense-item { background: var(--card); border-radius: 16px; padding: 14px 16px; margin: 0 16px 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; transition: transform 0.15s, box-shadow 0.15s; }
+.expense-item:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.exp-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.exp-info { flex: 1; min-width: 0; }
+.exp-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.exp-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.tag { font-size: 10px; padding: 3px 8px; border-radius: 10px; background: var(--bg); color: var(--text-light); font-weight: 600; }
+.tag-cat-餐飲 { background: #FFF0E0; color: #E87000; }
+.tag-cat-購物 { background: #EDE9FE; color: #7C3AED; }
+.tag-cat-交通 { background: #E3EEFF; color: #2D6FE0; }
+.tag-cat-住宿 { background: #E3F9EE; color: #1A9445; }
+.tag-cat-景點 { background: #FEF3C7; color: #D97706; }
+.tag-cat-其他 { background: var(--bg); color: var(--text-light); }
+.tag-shared { background: #E8FFF2; color: var(--success); }
+.exp-right { text-align: right; flex-shrink: 0; }
+.exp-eur { font-size: 16px; font-weight: 800; }
+.exp-twd { font-size: 12px; color: var(--text-light); margin-top: 2px; font-weight: 500; }
+.exp-delete { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text-light); padding: 4px; flex-shrink: 0; }
+.date-header { font-size: 12px; font-weight: 700; color: var(--text-light); display: flex; justify-content: space-between; padding: 14px 16px 6px; }
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border); display: flex; z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-btn { flex: 1; padding: 9px 0 10px; background: none; border: none; cursor: pointer; font-size: 10px; color: var(--text-light); display: flex; flex-direction: column; align-items: center; gap: 3px; font-family: inherit; transition: color 0.2s; position: relative; }
+.nav-btn .nav-icon { font-size: 22px; transition: transform 0.2s; }
+.nav-btn.active { color: var(--primary); font-weight: 700; }
+.nav-btn.active .nav-icon { transform: scale(1.1); }
+.nav-btn.active::after { content: ''; position: absolute; bottom: 6px; width: 18px; height: 3px; background: var(--primary); border-radius: 2px; }
+.panel { display: none; }
+.panel.active { display: block; }
+.scan-area { margin: 16px; border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--card); }
+.scan-area:active { border-color: var(--primary); background: var(--primary-light); }
+.scan-icon { font-size: 52px; margin-bottom: 12px; }
+.scan-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.scan-sub { font-size: 13px; color: var(--text-light); }
+.preview-img { width: calc(100% - 32px); margin: 0 16px 16px; border-radius: 14px; display: none; }
+.form-wrap { padding: 0 16px 16px; }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input, .form-select { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: 13px; font-size: 15px; color: var(--text); background: var(--card); outline: none; font-family: inherit; transition: border-color 0.2s; -webkit-appearance: none; }
+.form-input:focus, .form-select:focus { border-color: var(--primary); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.twd-hint { font-size: 12px; color: var(--text-light); margin-top: 5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 9px 15px; border: 1.5px solid var(--border); border-radius: 24px; background: var(--card); cursor: pointer; font-size: 13px; font-weight: 600; font-family: inherit; transition: all 0.2s; }
+.chip:active { transform: scale(0.95); }
+.chip.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 700; }
+.person-sel { display: flex; gap: 10px; }
+.person-sel-btn { flex: 1; padding: 11px; border: 2px solid var(--border); border-radius: 13px; background: var(--card); cursor: pointer; text-align: center; font-size: 13px; font-weight: 600; font-family: inherit; transition: all 0.2s; }
+.person-sel-btn.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--border); }
+.toggle-info .toggle-label { font-size: 14px; font-weight: 600; }
+.toggle-info .toggle-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.toggle-switch { position: relative; width: 46px; height: 26px; }
+.toggle-switch input { display: none; }
+.toggle-track { position: absolute; inset: 0; background: var(--border); border-radius: 13px; cursor: pointer; transition: 0.3s; }
+.toggle-track::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.toggle-switch input:checked + .toggle-track { background: var(--success); }
+.toggle-switch input:checked + .toggle-track::before { transform: translateX(20px); }
+.btn-primary { width: 100%; padding: 17px; background: linear-gradient(135deg, #7C3AED, #A78BFA); color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 6px 24px rgba(124,58,237,0.35); transition: opacity 0.2s, transform 0.15s; margin-top: 8px; }
+.btn-primary:active { opacity: 0.85; transform: scale(0.98); }
+.btn-secondary { width: 100%; padding: 14px; background: var(--card); color: var(--text); border: 1.5px solid var(--border); border-radius: 15px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px; }
+.stat-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 0 16px 16px; }
+.stat-card h3 { font-size: 13px; color: var(--text-light); font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.4px; }
+.chart-legend { margin-top: 16px; }
+.legend-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--bg); }
+.legend-row:last-child { border-bottom: none; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--text); }
+.legend-pct { font-size: 12px; color: var(--text-light); font-weight: 600; min-width: 36px; text-align: right; }
+.legend-amt { font-size: 12px; color: var(--text); font-weight: 700; min-width: 68px; text-align: right; }
+.settle-card { background: linear-gradient(135deg, #E8FFF2, #F0FFF8); border: 1.5px solid var(--success); border-radius: var(--radius); padding: 20px; margin: 16px 16px 12px; }
+.settle-title { font-size: 12px; font-weight: 700; color: var(--success); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
+.settle-body { font-size: 15px; font-weight: 700; color: var(--text); }
+.settle-sub { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--card); border-radius: 24px 24px 0 0; padding: 16px 20px 40px; width: 100%; max-width: 430px; max-height: 90vh; overflow-y: auto; }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+.loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 300; align-items: center; justify-content: center; flex-direction: column; gap: 16px; color: white; font-size: 15px; }
+.loading-overlay.show { display: flex; }
+.spinner { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px); background: #1C1C1E; color: white; padding: 11px 20px; border-radius: 30px; font-size: 14px; z-index: 400; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); white-space: nowrap; max-width: 90%; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-light); }
+.empty-state .e-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+.sync-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); padding: 0 16px 4px; }
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+.sync-dot.ok { background: var(--success); }
+.sync-dot.err { background: var(--danger); }
+.sync-dot.loading { background: var(--warning); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.btn-row { display: flex; gap: 10px; padding: 0 16px 12px; }
+.btn-half { flex: 1; padding: 13px; background: var(--card); border: 1.5px solid var(--border); border-radius: 13px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-export { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 32px); margin: 0 16px 12px; padding: 13px; background: var(--card); border: 1.5px solid var(--border); border-radius: 13px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--text); }
+.gas-guide { background: #F5F3FF; border: 1.5px solid #DDD6FE; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 12px; color: #5B21B6; line-height: 1.8; }
+.gas-guide strong { display: block; margin-bottom: 6px; font-size: 13px; }
+.gas-code { background: #1C1C1E; color: #A78BFA; border-radius: 10px; padding: 12px; font-size: 11px; font-family: monospace; white-space: pre-wrap; word-break: break-all; margin: 10px 0; line-height: 1.6; }
+.copy-code-btn { background: #7C3AED; color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div id="loadingText">AI 辨識中...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⚙️ 設定</div>
+
+    <div class="form-group">
+      <label class="form-label">Claude API Key（掃描收據用）</label>
+      <input type="password" class="form-input" id="s_apiKey" placeholder="sk-ant-api03-...">
+    </div>
+
+    <div class="gas-guide">
+      <strong>📊 Google Sheets 同步設定（一次性）</strong>
+      1. 開新的 Google 試算表（sheets.new）<br>
+      2. 點上方選單「擴充功能」→「Apps Script」<br>
+      3. 把以下程式碼全部貼上，按儲存 💾<br>
+      4. 點「部署」→「新增部署作業」→ 類型選「網頁應用程式」<br>
+      5. 執行身分：我自己；存取權：所有人 → 部署<br>
+      6. 複製「網頁應用程式 URL」貼到下方
+      <div class="gas-code" id="gasCode">function doGet(e){
+  const SS=SpreadsheetApp.getActiveSpreadsheet();
+  const SH='南法記帳';
+  let sh=SS.getSheetByName(SH);
+  if(!sh){
+    sh=SS.insertSheet(SH);
+    sh.appendRow(['ID','日期','店名','金額EUR','金額TWD','類別','付款','誰付','共攤','備註']);
+    sh.setFrozenRows(1);
+  }
+  const a=e.parameter.action;
+  if(a==='add'){
+    const d=JSON.parse(decodeURIComponent(e.parameter.p));
+    sh.appendRow([d.id,d.date,d.store,d.amountEur,d.amountTwd,d.category,d.payment,d.paidBy,d.isShared?'是':'否',d.notes||'']);
+    return out({ok:true});
+  }
+  if(a==='del'){
+    const id=e.parameter.id;
+    const v=sh.getDataRange().getValues();
+    for(let i=v.length-1;i>=1;i--){if(String(v[i][0])===id){sh.deleteRow(i+1);break;}}
+    return out({ok:true});
+  }
+  return out({ok:true,rows:sh.getDataRange().getValues()});
+}
+function out(d){
+  return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON);
+}</div>
+      <button class="copy-code-btn" onclick="copyGasCode()">📋 複製程式碼</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Google Script 網址（部署後取得）</label>
+      <input type="text" class="form-input" id="s_scriptUrl" placeholder="https://script.google.com/macros/s/...">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">匯率（1 EUR = ? TWD）</label>
+      <input type="number" class="form-input" id="s_rate" step="0.01" placeholder="34">
+      <div class="twd-hint">出發前記得確認最新匯率</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">旅遊預算（NT$，兩人合計）</label>
+      <input type="number" class="form-input" id="s_budget" placeholder="160000">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">旅遊日期</label>
+      <div class="form-row">
+        <input type="date" class="form-input" id="s_start">
+        <input type="date" class="form-input" id="s_end">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="saveSettings()">儲存設定</button>
+    <button class="btn-secondary" onclick="closeModal('settingsModal')">取消</button>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-trip">🇫🇷 南法之旅 2026</div>
+    </div>
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
+  </div>
+  <div class="header-amount" id="h_total">€0</div>
+  <div class="header-twd">≈ NT$<span id="h_totalTwd">0</span></div>
+  <div class="day-badge" id="h_day">📅 Day 1 / 15天</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="panel active" id="panel-home">
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon icon-orange">📋</div>
+      <div class="card-label">今日支出</div>
+      <div class="card-value" id="d_todayEur" style="font-size:18px;">€0</div>
+      <div class="card-sub">≈ NT$<span id="d_todayTwd">0</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-yellow">📅</div>
+      <div class="card-label">旅程天數</div>
+      <div class="card-value" id="d_day" style="font-size:18px;">Day -</div>
+      <div class="card-sub" id="d_daySub">6/30 – 7/14</div>
+    </div>
+    <div class="card card-wide">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+        <div>
+          <div class="card-icon icon-green" style="margin-bottom:8px;">🎯</div>
+          <div class="card-label">預算進度</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:20px;font-weight:800;">NT$<span id="d_used">0</span></div>
+          <div class="card-sub">/ NT$<span id="d_budget">160,000</span></div>
+        </div>
+      </div>
+      <div class="budget-bar"><div class="budget-fill" id="d_bar" style="width:0%"></div></div>
+      <div class="card-sub" style="margin-top:6px;">剩 NT$<span id="d_remain">160,000</span> · <span id="d_pct">0</span>% 已用</div>
+    </div>
+  </div>
+
+  <div class="person-cards">
+    <div class="person-card">
+      <div class="person-avatar avatar-vais">🧣</div>
+      <div class="person-name">Vais</div>
+      <div class="person-amount">NT$<span id="d_vais">0</span></div>
+      <div class="person-detail-row">
+        <span>代墊</span>
+        <span>NT$<span id="d_vaisProxy">0</span></span>
+      </div>
+    </div>
+    <div class="person-card">
+      <div class="person-avatar avatar-niou">🐰</div>
+      <div class="person-name">妞</div>
+      <div class="person-amount">NT$<span id="d_niou">0</span></div>
+      <div class="person-detail-row">
+        <span>代墊</span>
+        <span>NT$<span id="d_niouProxy">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    最近記錄
+    <div class="sync-row" style="padding:0;">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncText">未設定同步</span>
+    </div>
+  </div>
+  <div id="recentList"></div>
+</div>
+
+<!-- SCAN -->
+<div class="panel" id="panel-scan">
+  <div class="scan-area" onclick="document.getElementById('fileInput').click()">
+    <div class="scan-icon">📷</div>
+    <div class="scan-title">拍照掃描收據</div>
+    <div class="scan-sub">AI 自動辨識法文 → 繁中</div>
+    <input type="file" id="fileInput" accept="image/*" capture="environment" style="display:none" onchange="handleScan(event)">
+  </div>
+  <img id="previewImg" class="preview-img">
+  <div id="scanFormWrap"></div>
+</div>
+
+<!-- ADD -->
+<div class="panel" id="panel-add">
+  <form class="form-wrap" id="addForm" onsubmit="submitAdd(event)">
+    <div class="form-group">
+      <label class="form-label">店名 / 說明</label>
+      <input type="text" class="form-input" id="f_store" placeholder="例：Café de Flore" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">金額（EUR €）</label>
+      <input type="number" class="form-input" id="f_eur" placeholder="例：32.50" step="0.01" required oninput="previewTwd('f_eur','f_twdHint')">
+      <div class="twd-hint">≈ NT$<span id="f_twdHint">0</span></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">類別</label>
+      <div class="chips" id="f_chips">
+        <button type="button" class="chip active" data-cat="餐飲" onclick="pickChip(this)">🍽️ 餐飲</button>
+        <button type="button" class="chip" data-cat="購物" onclick="pickChip(this)">🛍️ 購物</button>
+        <button type="button" class="chip" data-cat="交通" onclick="pickChip(this)">🚗 交通</button>
+        <button type="button" class="chip" data-cat="住宿" onclick="pickChip(this)">🏨 住宿</button>
+        <button type="button" class="chip" data-cat="景點" onclick="pickChip(this)">🌻 景點</button>
+        <button type="button" class="chip" data-cat="其他" onclick="pickChip(this)">📦 其他</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">付款方式</label>
+      <select class="form-select" id="f_pay">
+        <option value="現金">💶 現金</option>
+        <option value="信用卡">💳 信用卡</option>
+        <option value="行動支付">📱 行動支付</option>
+        <option value="其他">📦 其他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">誰付的</label>
+      <div class="person-sel">
+        <button type="button" class="person-sel-btn active" id="pb_vais" onclick="pickPerson('Vais')">🧣 Vais</button>
+        <button type="button" class="person-sel-btn" id="pb_niou" onclick="pickPerson('妞')">🐰 妞</button>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🤝 共同分攤</div>
+        <div class="toggle-sub">兩人各付一半</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="f_shared">
+        <div class="toggle-track"></div>
+      </label>
+    </div>
+    <div class="form-group" style="margin-top:16px;">
+      <label class="form-label">備註（選填）</label>
+      <input type="text" class="form-input" id="f_notes" placeholder="例：含兩人份、含紅酒">
+    </div>
+    <div class="form-group">
+      <label class="form-label">日期</label>
+      <input type="date" class="form-input" id="f_date" required>
+    </div>
+    <button type="submit" class="btn-primary">新增記帳 ✓</button>
+  </form>
+</div>
+
+<!-- LIST -->
+<div class="panel" id="panel-list">
+  <div class="btn-row">
+    <button class="btn-half" onclick="exportJson()">⬇️ 備份 JSON</button>
+    <button class="btn-half" onclick="document.getElementById('importInput').click()">⬆️ 還原備份</button>
+    <input type="file" id="importInput" accept=".json" style="display:none" onchange="handleImport(event)">
+  </div>
+  <button class="btn-export" onclick="exportCsv()">📊 匯出 CSV（可匯入 Excel）</button>
+  <div id="fullList"></div>
+</div>
+
+<!-- STATS -->
+<div class="panel" id="panel-stats">
+  <div class="settle-card" id="settleCard">
+    <div class="settle-title">💸 旅遊結算試算</div>
+    <div class="settle-body" id="settleBody">尚無資料</div>
+    <div class="settle-sub" id="settleSub"></div>
+  </div>
+  <div class="stat-card">
+    <h3>📂 類別分布（NT$）</h3>
+    <canvas id="catChart" height="200"></canvas>
+    <div class="chart-legend" id="catLegend"></div>
+  </div>
+  <div class="stat-card">
+    <h3>📅 每日花費（NT$）</h3>
+    <canvas id="dayChart" height="200"></canvas>
+  </div>
+  <div class="stat-card">
+    <h3>👯 付款人分布</h3>
+    <canvas id="personChart" height="160"></canvas>
+    <div class="chart-legend" id="personLegend"></div>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="showPanel('home',this)">
+    <span class="nav-icon">🏠</span>總覽
+  </button>
+  <button class="nav-btn" onclick="showPanel('scan',this)">
+    <span class="nav-icon">📷</span>掃描
+  </button>
+  <button class="nav-btn" onclick="showPanel('add',this)">
+    <span class="nav-icon">✏️</span>記帳
+  </button>
+  <button class="nav-btn" onclick="showPanel('list',this)">
+    <span class="nav-icon">📋</span>明細
+  </button>
+  <button class="nav-btn" onclick="showPanel('stats',this)">
+    <span class="nav-icon">📊</span>統計
+  </button>
+</nav>
+
+<script>
+const SK_CFG = 'france2026_cfg';
+const SK_EXP = 'france2026_exp';
+
+const DEFAULT_SETTINGS = {
+  apiKey: '', scriptUrl: '',
+  rate: 34, budget: 160000,
+  startDate: '2026-06-30', endDate: '2026-07-14',
+};
+let cfg = { ...DEFAULT_SETTINGS };
+let expenses = [];
+let selCategory = '餐飲';
+let selPerson = 'Vais';
+let charts = {};
+
+const CAT_EMOJI = { '餐飲':'🍽️','購物':'🛍️','交通':'🚗','住宿':'🏨','景點':'🌻','其他':'📦' };
+const PAY_EMOJI = { '現金':'💶','信用卡':'💳','行動支付':'📱','其他':'📦' };
+
+(function init() {
+  const s = localStorage.getItem(SK_CFG);
+  if (s) cfg = { ...DEFAULT_SETTINGS, ...JSON.parse(s) };
+  const e = localStorage.getItem(SK_EXP);
+  if (e) expenses = JSON.parse(e);
+  document.getElementById('f_date').value = todayStr();
+  renderAll();
+  if (!cfg.scriptUrl) setSyncStatus('none');
+})();
+
+function save() {
+  localStorage.setItem(SK_CFG, JSON.stringify(cfg));
+  localStorage.setItem(SK_EXP, JSON.stringify(expenses));
+}
+
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+
+// NAV
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (name === 'stats') renderCharts();
+}
+
+// SETTINGS
+function openSettings() {
+  document.getElementById('s_apiKey').value = cfg.apiKey;
+  document.getElementById('s_scriptUrl').value = cfg.scriptUrl;
+  document.getElementById('s_rate').value = cfg.rate;
+  document.getElementById('s_budget').value = cfg.budget;
+  document.getElementById('s_start').value = cfg.startDate;
+  document.getElementById('s_end').value = cfg.endDate;
+  document.getElementById('settingsModal').classList.add('show');
+}
+function saveSettings() {
+  cfg.apiKey = document.getElementById('s_apiKey').value.trim();
+  cfg.scriptUrl = document.getElementById('s_scriptUrl').value.trim();
+  cfg.rate = parseFloat(document.getElementById('s_rate').value) || 34;
+  cfg.budget = parseInt(document.getElementById('s_budget').value) || 160000;
+  cfg.startDate = document.getElementById('s_start').value;
+  cfg.endDate = document.getElementById('s_end').value;
+  save(); closeModal('settingsModal'); renderAll();
+  showToast('✓ 設定已儲存');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function copyGasCode() {
+  const code = document.getElementById('gasCode').textContent;
+  navigator.clipboard.writeText(code).then(() => showToast('✓ 程式碼已複製！'));
+}
+
+// FORM HELPERS
+function pickChip(el) {
+  selCategory = el.dataset.cat;
+  el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+function pickPerson(p) {
+  selPerson = p;
+  document.getElementById('pb_vais').classList.toggle('active', p === 'Vais');
+  document.getElementById('pb_niou').classList.toggle('active', p === '妞');
+}
+function previewTwd(inputId, hintId) {
+  const v = parseFloat(document.getElementById(inputId).value) || 0;
+  document.getElementById(hintId).textContent = Math.round(v * cfg.rate).toLocaleString();
+}
+
+// ADD EXPENSE
+function submitAdd(e) {
+  e.preventDefault();
+  const eur = parseFloat(document.getElementById('f_eur').value);
+  const exp = makeExpense({
+    store: document.getElementById('f_store').value,
+    amountEur: eur,
+    amountTwd: Math.round(eur * cfg.rate),
+    category: selCategory,
+    payment: document.getElementById('f_pay').value,
+    paidBy: selPerson,
+    isShared: document.getElementById('f_shared').checked,
+    notes: document.getElementById('f_notes').value,
+    date: document.getElementById('f_date').value,
+  });
+  pushExpense(exp);
+  resetAddForm();
+  showToast('✓ 已新增');
+  showPanel('home', document.querySelector('.nav-btn'));
+}
+
+function makeExpense(data) {
+  return { id: Date.now().toString(), synced: false, ...data };
+}
+
+function pushExpense(exp) {
+  expenses.unshift(exp);
+  save();
+  renderAll();
+  syncToSheets(exp, 'add');
+}
+
+function resetAddForm() {
+  document.getElementById('f_store').value = '';
+  document.getElementById('f_eur').value = '';
+  document.getElementById('f_twdHint').textContent = '0';
+  document.getElementById('f_notes').value = '';
+  document.getElementById('f_date').value = todayStr();
+  document.getElementById('f_shared').checked = false;
+  pickPerson('Vais');
+  const firstChip = document.querySelector('#f_chips .chip');
+  if (firstChip) pickChip(firstChip);
+}
+
+// SCAN
+async function handleScan(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const preview = document.getElementById('previewImg');
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  if (!cfg.apiKey) { showToast('⚠️ 請先在設定填入 API Key'); return; }
+  showLoading('AI 辨識法文收據中...');
+  try {
+    const b64 = await toBase64(file);
+    const result = await claudeOCR(b64, file.type);
+    renderScanForm(result);
+  } catch (err) {
+    showToast('⚠️ 辨識失敗：' + err.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+async function claudeOCR(b64, mime) {
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': cfg.apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 600,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+          { type: 'text', text: `這是法國收據。只回傳 JSON，格式如下（不要其他文字）：
+{"store":"店名翻成繁體中文","amountEur":數字總金額歐元,"category":"餐飲|購物|交通|住宿|景點|其他","items":"主要品項一句話繁中","payment":"現金|信用卡|行動支付|其他"}
+看不清楚的欄位用合理預設值。金額請辨識 € 歐元數字。` }
+        ]
+      }]
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || 'API 錯誤');
+  }
+  const data = await resp.json();
+  const text = data.content[0].text;
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('無法解析結果');
+  return JSON.parse(m[0]);
+}
+
+let scanPerson = 'Vais';
+
+function renderScanForm(r) {
+  const wrap = document.getElementById('scanFormWrap');
+  wrap.innerHTML = `
+    <div style="margin:0 16px 12px;background:#E8FFF2;border-radius:14px;padding:14px;">
+      <div style="font-size:12px;color:var(--success);font-weight:700;margin-bottom:4px;">✓ AI 辨識完成</div>
+      <div style="font-size:17px;font-weight:800;">${r.store || '未知店家'}</div>
+      ${r.items ? `<div style="font-size:13px;color:var(--text-light);margin-top:3px;">${r.items}</div>` : ''}
+    </div>
+    <form class="form-wrap" onsubmit="submitScan(event)" style="padding-top:0;">
+      <div class="form-group">
+        <label class="form-label">店名</label>
+        <input type="text" class="form-input" id="sc_store" value="${r.store||''}" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">金額（EUR €）</label>
+        <input type="number" class="form-input" id="sc_eur" value="${r.amountEur||''}" step="0.01" required oninput="previewTwd('sc_eur','sc_hint')">
+        <div class="twd-hint">≈ NT$<span id="sc_hint">${Math.round((r.amountEur||0)*cfg.rate).toLocaleString()}</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">類別</label>
+        <select class="form-select" id="sc_cat">
+          ${['餐飲','購物','交通','住宿','景點','其他'].map(c=>`<option value="${c}"${c===r.category?' selected':''}>${CAT_EMOJI[c]||''} ${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">付款方式</label>
+        <select class="form-select" id="sc_pay">
+          ${['現金','信用卡','行動支付','其他'].map(p=>`<option value="${p}"${p===r.payment?' selected':''}>${PAY_EMOJI[p]||''} ${p}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">誰付的</label>
+        <div class="person-sel">
+          <button type="button" class="person-sel-btn active" id="sc_vais" onclick="pickScanPerson('Vais')">🧣 Vais</button>
+          <button type="button" class="person-sel-btn" id="sc_niou" onclick="pickScanPerson('妞')">🐰 妞</button>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-label">🤝 共同分攤</div>
+          <div class="toggle-sub">兩人各付一半</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="sc_shared">
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+      <div class="form-group" style="margin-top:16px;">
+        <label class="form-label">備註</label>
+        <input type="text" class="form-input" id="sc_notes" value="${r.items||''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">日期</label>
+        <input type="date" class="form-input" id="sc_date" value="${todayStr()}" required>
+      </div>
+      <button type="submit" class="btn-primary">確認新增 ✓</button>
+    </form>
+  `;
+  scanPerson = 'Vais';
+}
+
+function pickScanPerson(p) {
+  scanPerson = p;
+  document.getElementById('sc_vais').classList.toggle('active', p === 'Vais');
+  document.getElementById('sc_niou').classList.toggle('active', p === '妞');
+}
+
+function submitScan(e) {
+  e.preventDefault();
+  const eur = parseFloat(document.getElementById('sc_eur').value);
+  const exp = makeExpense({
+    store: document.getElementById('sc_store').value,
+    amountEur: eur,
+    amountTwd: Math.round(eur * cfg.rate),
+    category: document.getElementById('sc_cat').value,
+    payment: document.getElementById('sc_pay').value,
+    paidBy: scanPerson,
+    isShared: document.getElementById('sc_shared').checked,
+    notes: document.getElementById('sc_notes').value,
+    date: document.getElementById('sc_date').value,
+  });
+  pushExpense(exp);
+  document.getElementById('previewImg').style.display = 'none';
+  document.getElementById('scanFormWrap').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+  showToast('✓ 已新增');
+  showPanel('home', document.querySelector('.nav-btn'));
+}
+
+// GOOGLE SHEETS SYNC
+async function syncToSheets(exp, action) {
+  if (!cfg.scriptUrl) return;
+  setSyncStatus('loading');
+  try {
+    const url = action === 'add'
+      ? cfg.scriptUrl + '?action=add&p=' + encodeURIComponent(JSON.stringify(exp))
+      : cfg.scriptUrl + '?action=del&id=' + exp.id;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.ok) {
+      if (action === 'add') { exp.synced = true; save(); }
+      setSyncStatus('ok');
+    } else {
+      throw new Error('server error');
+    }
+  } catch (err) {
+    setSyncStatus('err');
+    console.warn('Sheets sync:', err);
+    showToast('⚠️ 同步失敗，資料已存本機');
+  }
+}
+
+function setSyncStatus(s) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if (!dot) return;
+  dot.className = 'sync-dot' + (s==='ok'?' ok':s==='err'?' err':s==='loading'?' loading':'');
+  txt.textContent = s==='ok'?'已同步 Google Sheets':s==='err'?'同步失敗':s==='loading'?'同步中...':'未設定同步';
+}
+
+// EXPORT / IMPORT
+function exportJson() {
+  const data = { version: 1, exportedAt: new Date().toISOString(), expenses };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `南法記帳_備份_${todayStr()}.json`; a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ 備份已下載，存到 iCloud/雲端硬碟');
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      const arr = data.expenses || data;
+      if (!Array.isArray(arr)) throw new Error('格式錯誤');
+      if (confirm(`匯入 ${arr.length} 筆記錄？現有 ${expenses.length} 筆資料將被覆蓋。`)) {
+        expenses = arr;
+        save(); renderAll();
+        showToast(`✓ 已匯入 ${arr.length} 筆`);
+      }
+    } catch(err) { showToast('⚠️ 讀取失敗：' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function exportCsv() {
+  const header = '日期,店名,金額EUR,金額TWD,類別,付款方式,誰付,共攤,備註\n';
+  const rows = expenses.map(e =>
+    [e.date,`"${e.store}"`,e.amountEur,e.amountTwd,e.category,e.payment,e.paidBy,e.isShared?'是':'否',`"${e.notes||''}"`].join(',')
+  ).join('\n');
+  const blob = new Blob(['﻿'+header+rows], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = '南法記帳.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ 已匯出 CSV');
+}
+
+// RENDER
+function renderAll() {
+  renderHeader();
+  renderDashboard();
+  renderRecentList();
+  renderFullList();
+  if (!cfg.scriptUrl) setSyncStatus('none');
+}
+
+function renderHeader() {
+  const tot = expenses.reduce((s,e)=>s+e.amountEur,0);
+  const totTwd = expenses.reduce((s,e)=>s+e.amountTwd,0);
+  document.getElementById('h_total').textContent = '€' + tot.toLocaleString('zh-TW', {minimumFractionDigits:0, maximumFractionDigits:2});
+  document.getElementById('h_totalTwd').textContent = totTwd.toLocaleString();
+  const {day, total} = tripDay();
+  document.getElementById('h_day').textContent = `📅 Day ${day} / ${total}天`;
+}
+
+function tripDay() {
+  const start = new Date(cfg.startDate + 'T00:00:00');
+  const end   = new Date(cfg.endDate   + 'T00:00:00');
+  const total = Math.round((end - start) / 86400000) + 1;
+  const now   = new Date();
+  const day   = Math.max(1, Math.min(total, Math.floor((now - start) / 86400000) + 1));
+  return { day, total };
+}
+
+function renderDashboard() {
+  const today = todayStr();
+  const todayExps = expenses.filter(e=>e.date===today);
+  const todayEur = todayExps.reduce((s,e)=>s+e.amountEur,0);
+  const todayTwd = todayExps.reduce((s,e)=>s+e.amountTwd,0);
+  document.getElementById('d_todayEur').textContent = '€' + todayEur.toLocaleString('zh-TW',{minimumFractionDigits:0,maximumFractionDigits:2});
+  document.getElementById('d_todayTwd').textContent = todayTwd.toLocaleString();
+
+  const {day} = tripDay();
+  document.getElementById('d_day').textContent = 'Day ' + day;
+  document.getElementById('d_daySub').textContent = `${cfg.startDate.slice(5).replace('-','/')} – ${cfg.endDate.slice(5).replace('-','/')}`;
+
+  const usedTwd = expenses.reduce((s,e)=>s+e.amountTwd,0);
+  const pct = Math.min(100, (usedTwd/cfg.budget)*100);
+  document.getElementById('d_used').textContent = usedTwd.toLocaleString();
+  document.getElementById('d_budget').textContent = cfg.budget.toLocaleString();
+  document.getElementById('d_remain').textContent = Math.max(0, cfg.budget-usedTwd).toLocaleString();
+  document.getElementById('d_pct').textContent = pct.toFixed(0);
+  const bar = document.getElementById('d_bar');
+  bar.style.width = pct + '%';
+  bar.classList.toggle('warn', pct > 75);
+
+  const sharedTwd  = expenses.filter(e=>e.isShared).reduce((s,e)=>s+e.amountTwd,0);
+  const vaisProxy  = expenses.filter(e=>e.isShared&&e.paidBy==='Vais').reduce((s,e)=>s+Math.round(e.amountTwd/2),0);
+  const niouProxy  = expenses.filter(e=>e.isShared&&e.paidBy==='妞').reduce((s,e)=>s+Math.round(e.amountTwd/2),0);
+  const vaisOwes   = expenses.filter(e=>!e.isShared&&e.paidBy==='Vais').reduce((s,e)=>s+e.amountTwd,0) + Math.round(sharedTwd/2);
+  const niouOwes   = expenses.filter(e=>!e.isShared&&e.paidBy==='妞').reduce((s,e)=>s+e.amountTwd,0) + Math.round(sharedTwd/2);
+
+  document.getElementById('d_vais').textContent = vaisOwes.toLocaleString();
+  document.getElementById('d_niou').textContent = niouOwes.toLocaleString();
+  document.getElementById('d_vaisProxy').textContent = vaisProxy.toLocaleString();
+  document.getElementById('d_niouProxy').textContent = niouProxy.toLocaleString();
+}
+
+function expItem(exp, del=false) {
+  const isVais = exp.paidBy === 'Vais';
+  const avatarCls = isVais ? 'avatar-vais' : 'avatar-niou';
+  const avatarEmoji = isVais ? '🧣' : '🐰';
+  const delBtn = del ? `<button class="exp-delete" onclick="delExpense('${exp.id}')">🗑</button>` : '';
+  const syncBadge = exp.synced ? '' : `<span style="font-size:9px;color:var(--warning);">●</span>`;
+  return `<div class="expense-item" data-id="${exp.id}">
+    <div class="exp-avatar ${avatarCls}">${avatarEmoji}</div>
+    <div class="exp-info">
+      <div class="exp-name">${exp.store} ${syncBadge}</div>
+      <div class="exp-meta">
+        <span class="tag tag-cat-${exp.category}">${CAT_EMOJI[exp.category]||''}${exp.category}</span>
+        <span class="tag">${PAY_EMOJI[exp.payment]||''}${exp.payment}</span>
+        ${exp.isShared?'<span class="tag tag-shared">🤝 共攤</span>':''}
+      </div>
+    </div>
+    <div class="exp-right">
+      <div class="exp-eur">€${exp.amountEur.toLocaleString('zh-TW',{minimumFractionDigits:0,maximumFractionDigits:2})}</div>
+      <div class="exp-twd">NT$${exp.amountTwd.toLocaleString()}</div>
+    </div>
+    ${delBtn}
+  </div>`;
+}
+
+function renderRecentList() {
+  const el = document.getElementById('recentList');
+  if (!expenses.length) {
+    el.innerHTML = `<div class="empty-state"><div class="e-icon">🧾</div><p>還沒有任何記錄<br>拍照掃描或手動新增第一筆！</p></div>`;
+    return;
+  }
+  el.innerHTML = expenses.slice(0,5).map(e=>expItem(e,false)).join('');
+}
+
+function renderFullList() {
+  const el = document.getElementById('fullList');
+  if (!expenses.length) {
+    el.innerHTML = `<div class="empty-state"><div class="e-icon">📋</div><p>還沒有記錄</p></div>`;
+    return;
+  }
+  const byDate = {};
+  expenses.forEach(e => { (byDate[e.date] = byDate[e.date]||[]).push(e); });
+  let html = '';
+  Object.keys(byDate).sort().reverse().forEach(date => {
+    const arr = byDate[date];
+    const sumTwd = arr.reduce((s,e)=>s+e.amountTwd,0);
+    const sumEur = arr.reduce((s,e)=>s+e.amountEur,0);
+    const d = new Date(date+'T00:00:00');
+    const label = d.toLocaleDateString('zh-TW',{month:'long',day:'numeric',weekday:'short'});
+    html += `<div class="date-header"><span>${label}</span><span>€${sumEur.toFixed(0)} / NT$${sumTwd.toLocaleString()}</span></div>`;
+    html += arr.map(e=>expItem(e,true)).join('');
+  });
+  el.innerHTML = html;
+}
+
+function delExpense(id) {
+  if (!confirm('確定刪除？')) return;
+  const exp = expenses.find(e=>e.id===id);
+  expenses = expenses.filter(e=>e.id!==id);
+  save(); renderAll(); showToast('✓ 已刪除');
+  if (exp && cfg.scriptUrl) syncToSheets(exp, 'del');
+}
+
+// CHARTS
+function renderCharts() {
+  renderSettlement();
+  renderCatChart();
+  renderDayChart();
+  renderPersonChart();
+}
+
+function renderSettlement() {
+  const sharedTwd = expenses.filter(e=>e.isShared).reduce((s,e)=>s+e.amountTwd,0);
+  const vaisPaidShared = expenses.filter(e=>e.isShared&&e.paidBy==='Vais').reduce((s,e)=>s+e.amountTwd,0);
+  const half = Math.round(sharedTwd/2);
+  const vaisDiff = vaisPaidShared - half;
+  const body = document.getElementById('settleBody');
+  const sub = document.getElementById('settleSub');
+  if (!sharedTwd) { body.textContent = '尚無共攤記錄'; sub.textContent = ''; return; }
+  if (vaisDiff > 0) {
+    body.textContent = `妞 應付給 Vais NT$${vaisDiff.toLocaleString()}`;
+    sub.textContent = `共攤總額 NT$${sharedTwd.toLocaleString()}，各半 NT$${half.toLocaleString()}`;
+  } else if (vaisDiff < 0) {
+    body.textContent = `Vais 應付給 妞 NT$${Math.abs(vaisDiff).toLocaleString()}`;
+    sub.textContent = `共攤總額 NT$${sharedTwd.toLocaleString()}，各半 NT$${half.toLocaleString()}`;
+  } else {
+    body.textContent = '🎉 共攤部分已平！'; sub.textContent = '';
+  }
+}
+
+function renderCatChart() {
+  const ctx = document.getElementById('catChart');
+  const cats = ['餐飲','購物','交通','住宿','景點','其他'];
+  const colors = ['#F59E0B','#7C3AED','#3B82F6','#10B981','#F97316','#94A3B8'];
+  const data = cats.map(c=>expenses.filter(e=>e.category===c).reduce((s,e)=>s+e.amountTwd,0));
+  const total = data.reduce((s,v)=>s+v,0);
+  if (charts.cat) charts.cat.destroy();
+  charts.cat = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels: cats.map((c,i)=>`${Object.values(CAT_EMOJI)[i]} ${c}`), datasets: [{ data, backgroundColor: colors, hoverOffset: 6, borderWidth: 0 }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, cutout: '68%' }
+  });
+  const legend = document.getElementById('catLegend');
+  legend.innerHTML = cats.map((c,i) => {
+    if (!data[i]) return '';
+    const pct = total ? ((data[i]/total)*100).toFixed(0) : 0;
+    const amt = data[i] >= 1000 ? `NT$${(data[i]/1000).toFixed(1)}k` : `NT$${data[i]}`;
+    return `<div class="legend-row"><div class="legend-dot" style="background:${colors[i]}"></div><div class="legend-name">${Object.values(CAT_EMOJI)[i]} ${c}</div><div class="legend-pct">${pct}%</div><div class="legend-amt">${amt}</div></div>`;
+  }).join('');
+}
+
+function renderDayChart() {
+  const ctx = document.getElementById('dayChart');
+  const start = new Date(cfg.startDate+'T00:00:00');
+  const end   = new Date(cfg.endDate  +'T00:00:00');
+  const labels=[], data=[];
+  for (let d=new Date(start); d<=end; d.setDate(d.getDate()+1)) {
+    const ds = d.toISOString().split('T')[0];
+    labels.push(d.toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'}));
+    data.push(expenses.filter(e=>e.date===ds).reduce((s,e)=>s+e.amountTwd,0));
+  }
+  if (charts.day) charts.day.destroy();
+  charts.day = new Chart(ctx, {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'NT$', data, backgroundColor:'#7C3AED', borderRadius:8, borderSkipped: false }] },
+    options:{ responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}} }
+  });
+}
+
+function renderPersonChart() {
+  const ctx = document.getElementById('personChart');
+  const vais = expenses.filter(e=>e.paidBy==='Vais').reduce((s,e)=>s+e.amountTwd,0);
+  const niou = expenses.filter(e=>e.paidBy==='妞').reduce((s,e)=>s+e.amountTwd,0);
+  const total = vais + niou;
+  const colors = ['#7C3AED','#A78BFA'];
+  if (charts.person) charts.person.destroy();
+  charts.person = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['🧣 Vais','🐰 妞'], datasets:[{ data:[vais,niou], backgroundColor: colors, hoverOffset:6, borderWidth: 0 }] },
+    options:{ responsive:true, plugins:{legend:{display:false}}, cutout: '68%' }
+  });
+  const legend = document.getElementById('personLegend');
+  const names = ['🧣 Vais','🐰 妞'];
+  const vals = [vais, niou];
+  legend.innerHTML = names.map((n,i) => {
+    const pct = total ? ((vals[i]/total)*100).toFixed(0) : 0;
+    const amt = vals[i] >= 1000 ? `NT$${(vals[i]/1000).toFixed(1)}k` : `NT$${vals[i]}`;
+    return `<div class="legend-row"><div class="legend-dot" style="background:${colors[i]}"></div><div class="legend-name">${n}</div><div class="legend-pct">${pct}%</div><div class="legend-amt">${amt}</div></div>`;
+  }).join('');
+}
+
+// UI HELPERS
+function showLoading(txt) {
+  document.getElementById('loadingText').textContent = txt || '載入中...';
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('show'); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
