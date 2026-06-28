@@ -3,7 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>🇫🇷 南法記帳</title>
+<title>💰 南法記帳</title>
+<link id="fav" rel="icon" type="image/png">
+<link id="apl" rel="apple-touch-icon">
+<script>
+(function(){
+  function mkIcon(sz){
+    var c=document.createElement('canvas');
+    c.width=c.height=sz;
+    var x=c.getContext('2d');
+    var r=sz*.12;
+    x.beginPath();x.moveTo(r,0);x.lineTo(sz-r,0);x.quadraticCurveTo(sz,0,sz,r);
+    x.lineTo(sz,sz-r);x.quadraticCurveTo(sz,sz,sz-r,sz);
+    x.lineTo(r,sz);x.quadraticCurveTo(0,sz,0,sz-r);
+    x.lineTo(0,r);x.quadraticCurveTo(0,0,r,0);x.closePath();
+    x.fillStyle='#7C3AED';x.fill();
+    x.font=(sz*.58)+'px serif';x.textAlign='center';x.textBaseline='middle';
+    x.fillText('💰',sz/2,sz/2+sz*.03);
+    return c.toDataURL();
+  }
+  document.getElementById('fav').href=mkIcon(64);
+  document.getElementById('apl').href=mkIcon(180);
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root {
