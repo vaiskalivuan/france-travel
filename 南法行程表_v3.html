@@ -87,6 +87,19 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .map-legend div{margin:3px 0;display:flex;align-items:center;gap:6px;color:var(--tx)}
 .ml-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
 .guide-section{margin-bottom:20px}
+.guide-section details{margin-bottom:0}
+.guide-section details summary{font-size:.88em;font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--bd);color:var(--tx);letter-spacing:.01em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.guide-section details summary::-webkit-details-marker{display:none}
+.guide-section details summary::after{content:"▼";font-size:.7em;color:var(--t2);transition:.2s}
+.guide-section details[open] summary::after{content:"▲"}
+.guide-section details summary h3{margin:0;font-size:1em;font-weight:700;border:none;padding:0}
+.sos-box{background:#FFF1F2;border:2px solid #FB7185;border-radius:10px;padding:14px;margin-bottom:16px}
+.sos-box h3{font-size:.88em;font-weight:700;color:#BE123C;margin-bottom:10px}
+.sos-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #FFE4E6;font-size:.8em}
+.sos-row:last-child{border-bottom:none}
+.sos-icon{font-size:1.1em;flex-shrink:0;margin-top:1px}
+.sos-text{flex:1;line-height:1.5;color:var(--tx)}
+.sos-text b{color:#BE123C}
 .guide-section h3{font-size:.88em;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bd);color:var(--tx);letter-spacing:.01em}
 .guide-item{background:var(--cd);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid var(--bd)}
 .guide-item h4{font-size:.83em;font-weight:600;margin-bottom:4px}
@@ -179,6 +192,17 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 <div id="v-guide" class="view"><div class="ct">
 <button class="sbtn" onclick="shareTrip()">📤 分享行程給朋友（複製文字）</button>
 
+<!-- SOS / LAST-MINUTE TIPS -->
+<div class="sos-box">
+<h3>🚨 出發倒數 — 最後確認清單</h3>
+<div class="sos-row"><span class="sos-icon">🌡️</span><div class="sos-text"><b>南法七月可能很熱！</b>平均 32-35°C，熱浪時達 38-40°C。防曬 SPF50+ 每 2hr 補、隨身水壺、<b>上午 10 點前把景點走完</b>，下午最熱去室內景點或泳池。</div></div>
+<div class="sos-row"><span class="sos-icon">🏷️</span><div class="sos-text"><b>Crit'Air 環保貼紙確認</b>——部分法國城市（Aix、Marseille、Avignon 郊區）設有 ZFE 低排放區，沒貼會被罰款。Alamo 租車通常已貼，取車時確認前擋風玻璃左下角有無圓形彩色貼紙。</div></div>
+<div class="sos-row"><span class="sos-icon">🇫🇷</span><div class="sos-text"><b>7/14 法國國慶日（Day 16）</b>——這天路上有遊行封路，MRS 機場附近也可能更堵。計畫 15:00 出發，<b>不可以再晚了！</b>國慶日煙火通常 22:00，不影響你們的 19:05 班機。</div></div>
+<div class="sos-row"><span class="sos-icon">📱</span><div class="sos-text"><b>App 出發前下載</b>：Waze（已裝）、Google Maps 離線地圖（南法/巴黎 ✓）、<b>Google 翻譯離線法文包</b>（超重要！餐廳菜單對著拍直接翻）、SNCF Connect（火車票）。</div></div>
+<div class="sos-row"><span class="sos-icon">🏖️</span><div class="sos-text"><b>海灘 + 市集扒手</b>——尼斯英國人散步大道、Cours Saleya 市集是重災區。手機放前口袋、背包背前面、海灘游泳時把手機鎖車上。<b>不要帶不必要的現金出門。</b></div></div>
+<div class="sos-row"><span class="sos-icon">🆘</span><div class="sos-text"><b>緊急號碼</b>：全歐 <b>112</b>｜警察 <b>17</b>｜救護車 <b>15</b>｜駐法台北代表處 <b>+33 1 44 39 88 30</b>（緊急聯絡）｜Alamo 道路救援 <b>+33 800 003 033</b></div></div>
+</div>
+
 <div class="nw-box">
 <h3>🚗 自駕新手專區</h3>
 <div class="guide-item">
@@ -264,7 +288,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 
 <!-- SHOPPING LIST -->
 <div class="guide-section">
-<h3>🛒 法國必買清單</h3>
+<details>
+<summary><h3>🛒 法國必買清單</h3></summary>
 <div class="guide-item"><h4>💊 藥妝（Parapharmacie 買最便宜）</h4><p>
 • <span class="warn">La Roche-Posay</span> 理膚寶水 — 防曬、B5 修復霜<br>
 • <span class="warn">Avène</span> 雅漾 — 舒護活泉水、冷霜潤膚霜<br>
@@ -288,6 +313,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 • 市集手工飾品 / 普羅旺斯花布 — 索格島和 Aix 市集<br>
 💡 同一家店消費滿 €100.01 可退稅約 12%！結帳說 "Détaxe s'il vous plaît"</p></div>
 </div>
+</details>
 
 <!-- AVIGNON FESTIVAL -->
 <div class="guide-section">
@@ -307,12 +333,13 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 <div class="guide-item"><h4>⛽ 加油站</h4><p>全自助！插信用卡→選油槍號碼→加油→列印收據。柴油 = Gazole/Diesel，汽油 = Sans Plomb 95/98。<span class="warn">城市內加油站很少</span>，高速公路休息站和量販店（Leclerc, Carrefour）停車場有。不要等油燈亮才找！</p></div>
 <div class="guide-item"><h4>🅿️ 停車</h4><p>路邊白線 + Payant 標示 = 付費車位。找到繳費機→輸車牌→選時間→刷卡付款。把收據放擋風玻璃下。<span class="warn">藍線 = 限時免費</span>（需要放藍色停車計時盤）。黃線 = 禁停。</p></div>
 <div class="guide-item"><h4>⚠️ 重要提醒</h4><p>速限：市區50→郊區80→高速130 km/h。<span class="warn">超速罰單從 €68 起跳</span>，有固定測速和移動測速。全車系安全帶必繫。法國開車右駕左行（跟台灣一樣右邊開）。白天開大燈。手機不能拿在手上（罰 €135）。</p></div>
+<div class="guide-item"><h4>🏷️ Crit'Air 環保貼紙</h4><p>法國多個城市設有 ZFE 低排放區（Aix、Marseille 均在其中），進入需貼 <span class="warn">Crit'Air 貼紙</span>（約 €3.72）。<span class="warn">Alamo 租車通常已貼好</span>，取車時確認擋風玻璃左下角有無圓形彩色貼紙。若沒有，請當場要求補貼，否則可罰 €68-€135。</p></div>
 </div>
 
 <!-- PRACTICAL CHEAT SHEET -->
 <div class="guide-section">
 <h3>📝 實用小抄</h3>
-<div class="guide-item"><h4>🌡️ 七月天氣</h4><p>南法七月：28-32°C，日照到 21:00。基本上每天大太陽。<span class="warn">防曬必備！</span>薄外套帶一件（冷氣車裡和山區早晚用）。偶爾會有午後雷陣雨但很快停。</p></div>
+<div class="guide-item"><h4>🌡️ 七月天氣</h4><p>南法七月平均 32-35°C，熱浪年份可達 <span class="warn">38-40°C</span>，日照長到 21:00。<span class="warn">防曬 SPF50+ 必備，每 2hr 補一次！</span>每天帶水壺。薄外套帶一件（冷氣車裡和山區早晚用）。建議景點 <span class="warn">10:00 前</span>出發趁涼，下午最熱的時段安排室內景點或回泳池休息。</p></div>
 <div class="guide-item"><h4>💶 退稅</h4><p>同一家店消費滿 €100.01 可退稅（約 12%）。結帳時跟店員說 "Tax free please" 或 "Détaxe s'il vous plaît"。拿到退稅單→在機場辦退稅（先退稅再託運）。<span class="warn">馬賽機場 MRS 有退稅櫃台</span>，提早到！</p></div>
 <div class="guide-item"><h4>💰 小費文化</h4><p>法國帳單已含服務費，<span class="warn">不需要給小費</span>。滿意的話留 €1-2 零錢在桌上就很有禮貌了。不用像美國算 15-20%。</p></div>
 <div class="guide-item"><h4>🕐 營業時間地雷</h4><p><span class="warn">週日大部分商店不開！</span>超市也是。週一部分博物館休館。中午 12:00-14:00 很多小店午休。餐廳午餐 12:00-14:00、晚餐 19:00-21:30，錯過就沒得吃。</p></div>
@@ -322,7 +349,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 
 <!-- FRENCH PHRASES -->
 <div class="guide-section">
-<h3>🇫🇷 基礎法文對照</h3>
+<details>
+<summary><h3>🇫🇷 基礎法文對照</h3></summary>
 <div class="card">
 <h3>👋 打招呼</h3>
 <table class="phrase-table">
@@ -356,11 +384,13 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 <tr><td>駐法台北代表處</td><td>+33 1 44 39 88 30</td></tr>
 </table>
 </div>
+</details>
 </div>
 
 <!-- BLOGGER TIPS -->
 <div class="guide-section">
-<h3>✨ 部落客實戰筆記</h3>
+<details>
+<summary><h3>✨ 部落客實戰筆記</h3></summary>
 <p style="font-size:.8em;color:var(--t2);margin-bottom:10px">從 5 篇攻略文章中萃取的實用情報，方便討論取捨！</p>
 <div class="guide-item" style="border-left:4px solid var(--ok)"><h4>💰 花費參考（Mandy 6日自駕）</h4><p>兩人 6 天共 <span class="warn">€1,821</span>，平均每人每天約 <span class="warn">€151</span>（含住宿+餐飲+油費+門票）。住宿佔最大比例。超市買食材自煮可以省很多！</p></div>
 <div class="guide-item" style="border-left:4px solid var(--ni)"><h4>🚗 自駕心得（Tiffany 8日）</h4><p>南法路標清楚，開車比想像中簡單。但 <span class="warn">市區停車超難</span>！強烈建議租小車（不要 SUV）方便停車和窄巷。高速公路很好開，鄉間小路也有趣。</p></div>
@@ -377,10 +407,12 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 • <span class="warn">Salin de Giraud 粉紅鹽田</span> — 離阿爾勒 40min，需自駕<br>
 • <span class="warn">Roussillon 赭石步道</span> — Day 7 石頭城順路，30-60min 走入紅色峽谷</p></div>
 </div>
+</details>
 
 <!-- REFERENCE BLOGS -->
 <div class="guide-section">
-<h3>📚 參考攻略＆部落格</h3>
+<details>
+<summary><h3>📚 參考攻略＆部落格</h3></summary>
 <p style="font-size:.8em;color:var(--t2);margin-bottom:10px">蒐集的南法旅遊文章，點開直接看原文，方便跟朋友一起討論刪減行程！</p>
 <div class="guide-item"><h4>📝 Tripper — 南法自由行筆記</h4><p>南法旅遊實用筆記，涵蓋行程規劃和景點介紹。<br><a href="https://tripper.tw/southfrance-note3/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ tripper.tw/southfrance-note3</a></p></div>
 <div class="guide-item"><h4>🏆 KS Journey — 南法 Top 10 必去</h4><p>精選南法最值得去的 10 個景點推薦。<br><a href="https://ksjourney.life/southfrancetop10/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ ksjourney.life/southfrancetop10</a></p></div>
@@ -388,6 +420,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 <div class="guide-item"><h4>🌿 Lillian — 艾克斯普羅旺斯攻略</h4><p>Aix-en-Provence 深度介紹，景點、美食、交通一次看。<br><a href="https://lillian.tw/aix-en-provence/" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ lillian.tw/aix-en-provence</a></p></div>
 <div class="guide-item"><h4>🚗 Miss Eaglett — 2024 南法 8 天自駕行程</h4><p>自駕輕鬆上手！8 天南法自駕經驗分享，適合第一次自駕參考。<br><a href="https://misseaglett.medium.com/2024-%E5%8D%97%E6%B3%958%E5%A4%A9%E8%A1%8C%E7%A8%8B-%E8%87%AA%E9%A7%95-%E8%BC%95%E9%AC%86%E4%B8%8A%E6%89%8B-04bdb1db9e42" target="_blank" rel="noopener" style="color:var(--ni);font-weight:600;text-decoration:none">→ Medium: 南法 8 天自駕輕鬆上手</a></p></div>
 </div>
+</details>
 
 </div></div>
 
