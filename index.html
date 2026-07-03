@@ -154,6 +154,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 <div class="nb" onclick="sw('guide',this)"><span class="ic">📋</span>攻略</div>
 <div class="nb" onclick="sw('pack',this)"><span class="ic">🧳</span>行李</div>
 <div class="nb" onclick="sw('notes',this)"><span class="ic">📝</span>筆記</div>
+<div class="nb" onclick="sw('beauty',this)"><span class="ic">🧴</span>藥妝</div>
 </div>
 
 <!-- ITINERARY -->
@@ -508,6 +509,46 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 </div>
 </div>
 </div></div>
+
+<!-- BEAUTY / 藥妝 -->
+<style>
+.bty-intro{background:var(--nil);border:1px solid #BFDBFE;border-radius:10px;padding:12px 14px;font-size:.8em;color:#1E40AF;line-height:1.6;margin-bottom:16px}
+.bty-sec{font-size:.9em;font-weight:800;margin:20px 0 10px;padding:7px 12px;border-radius:8px;letter-spacing:.02em}
+.bty-sec.p1{background:#FEE2E2;color:#B91C1C}
+.bty-sec.p2{background:#FEF3C7;color:#B45309}
+.bty-sec.p3{background:#F1F5F9;color:#64748B}
+.bty-card{display:flex;gap:10px;background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:8px;transition:.2s}
+.bty-card.done{opacity:.45}
+.bty-check{flex:0 0 auto;padding-top:1px;cursor:pointer}
+.bty-check input{width:20px;height:20px;accent-color:var(--ok);cursor:pointer}
+.bty-body{flex:1;min-width:0}
+.bty-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.bty-sw{font-size:.58em;font-weight:800;color:#fff;padding:3px 7px;border-radius:4px;letter-spacing:.05em;white-space:nowrap}
+.bty-zone{font-size:.68em;color:var(--t2);font-weight:700}
+.bty-name{font-size:.86em;font-weight:700;margin-bottom:3px;line-height:1.4}
+.bty-fr{font-size:.82em;color:var(--t2);font-weight:500}
+.bty-pkg{font-size:.74em;color:var(--ax);margin-bottom:6px;line-height:1.5}
+.bty-fn{font-size:.78em;color:var(--t2);line-height:1.55;margin-bottom:9px}
+.bty-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.bty-price{font-size:.84em;font-weight:800;color:var(--ok)}
+.bty-photo{font-size:.75em;font-weight:700;color:var(--ni);text-decoration:none;border:1px solid var(--ni);border-radius:6px;padding:5px 11px;white-space:nowrap}
+.bty-card.done .bty-name{text-decoration:line-through}
+.bty-phrase{background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:12px 14px;margin-top:18px;font-size:.8em;color:#9A3412;line-height:1.7}
+.bty-phrase b{color:#7C2D12}
+</style>
+<div id="v-beauty" class="view"><div class="ct">
+<h2 style="font-size:1.05em;margin-bottom:3px">🧴 法國藥妝購物清單</h2>
+<p style="font-size:.78em;color:var(--t2);margin-bottom:14px">按優先級排序，勾選會記住｜點「看照片」跳 Google 實物圖比對貨架</p>
+<div class="bty-intro">💡 <b>膚況重點</b>：混合偏乾＋偶發敏弱肌。T 字要清爽控油、雙頰要溫和退紅、怕悶痘。晚上已有寶拉 A 醛＋B3 抗老主力，白天走溫和路線即可。<br>🎨 <b>貨架辨識</b>：綠色=Bioderma、葡萄/霧粉=Caudalie、藍白=雅漾/理膚寶水、白盒黑字方罐=Filorga。</div>
+<div class="bty-sec p1">🥇 必買 — 救命三寶（預算優先給這裡）</div>
+<div class="bty-card" data-p="1"><label class="bty-check"><input type="checkbox" data-k="anthelios"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:LA ROCHE-POSAY">#0071CE</span><span class="bty-zone">全臉防曬</span></div><div class="bty-name">Anthelios UVMune 400 Fluid SPF50+ <span class="bty-fr">理膚寶水 清爽防曬</span></div><div class="bty-pkg">📦 藍白細長管、橘色 UVMune 400 字樣</div><div class="bty-fn">南法烈日必備。最新 UVMune 400 濾光科技擋長波 UVA（曬黑元凶），Fluid 質地無油感、不泛白，混油肌也清爽。若已帶足可跳過，不夠就在這補貨（法國比台灣便宜）。</div><div class="bty-foot"><span class="bty-price">€15–20</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=La+Roche-Posay+Anthelios+UVMune+400+Fluid" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="1"><label class="bty-check"><input type="checkbox" data-k="cicabio"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:BIODERMA">#00843D</span><span class="bty-zone">雙頰急救</span></div><div class="bty-name">Cicabio Crème <span class="bty-fr">貝膚黛瑪 修護霜</span></div><div class="bty-pkg">📦 綠底、藍風鈴圖案的軟管／小罐</div><div class="bty-fn">主成分積雪草（積雪草苷）＋銅鋅離子，主動消炎退紅、縮短泛紅發癢的修復期。比 B5 更針對「已經在鬧脾氣」的急性狀態，質地清爽好吸收。雙頰快閃紅癢時晚上局部薄擦。</div><div class="bty-foot"><span class="bty-price">€6–9</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Bioderma+Cicabio+Creme" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="1"><label class="bty-check"><input type="checkbox" data-k="avene"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:AVÈNE">#E4547C</span><span class="bty-zone">降溫滅火</span></div><div class="bty-name">Eau Thermale 舒緩噴霧 <span class="bty-fr">雅漾 舒緩噴霧</span></div><div class="bty-pkg">📦 藍白噴罐、噴頭上有藍蓋</div><div class="bty-fn">純溫泉水，靠物理降溫＋礦物質安撫，不含任何活性成分＝絕對不刺激。曬後、熱到、泛癢隨時噴。這是雅漾產地原廠，法國買最便宜，扛大瓶回去很划算。放車上隨手噴。</div><div class="bty-foot"><span class="bty-price">€8–13（大瓶）</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Avene+Eau+Thermale+spray" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-sec p2">🥈 加購 — 看心情／預算</div>
+<div class="bty-card" data-p="2"><label class="bty-check"><input type="checkbox" data-k="queenwater"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:CAUDALIE">#7A4E7E</span><span class="bty-zone">T字控油</span></div><div class="bty-name">Eau de Beauté 皇后水 <span class="bty-fr">歐緹麗 葡萄籽活性爽膚水</span></div><div class="bty-pkg">📦 透明瓶身、綠色標籤</div><div class="bty-fn">葡萄萃取＋薄荷迷迭香精油，噴起來微涼療癒、控油收斂毛孔，妝前定妝一絕。⚠️ 含精油＋酒精，你雙頰泛紅時別噴——只噴 T 字／當妝前用。是「享受品」非必需，想要爽感香氛再買。</div><div class="bty-foot"><span class="bty-price">€18–30</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Caudalie+Eau+de+Beaute" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="2"><label class="bty-check"><input type="checkbox" data-k="resveratrol"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:CAUDALIE">#7A4E7E</span><span class="bty-zone">溫和抗老</span></div><div class="bty-name">Resveratrol-Lift 提拉精華 <span class="bty-fr">白藜蘆醇提拉緊緻精華</span></div><div class="bty-pkg">📦 霧粉色圓柱玻璃瓶＋白色滴管，正面 RESVERATROL-LIFT</div><div class="bty-fn">抗老要出手就選這支。白藜蘆醇（葡萄藤抗氧化）中和紫外線／自由基老化，搭胜肽刺激膠原。水感、吸收快、溫和，白天用不會跟你晚上的寶拉 A 醛打架，是完美互補。</div><div class="bty-foot"><span class="bty-price">€40–50</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Caudalie+Resveratrol-Lift+serum" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="2"><label class="bty-check"><input type="checkbox" data-k="aderma"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:A-DERMA">#5A9E3F</span><span class="bty-zone">順手掃貨</span></div><div class="bty-name">Crème Mains 燕麥護手霜 <span class="bty-fr">歐潤芙 燕麥護手霜</span></div><div class="bty-pkg">📦 燕麥圖案軟管，常有兩入特價組</div><div class="bty-fn">燕麥（Rhealba）萃取，主打舒緩修護、零香精，沒有歐舒丹那種濃香。吸收快、修護力強，一直開車手容易乾正好用。便宜到可當伴手禮，看到兩入組直接掃。</div><div class="bty-foot"><span class="bty-price">€5–8</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=A-DERMA+Creme+Mains" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-sec p3">🥉 先緩緩 — 貴或功能重疊</div>
+<div class="bty-card" data-p="3"><label class="bty-check"><input type="checkbox" data-k="filorga"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:FILORGA">#1A1A1A</span><span class="bty-zone">醫美級抗老</span></div><div class="bty-name">NCEF-Reverse (Mat) <span class="bty-fr">菲洛嘉 逆時光面霜 霧面版</span></div><div class="bty-pkg">📦 純白盒黑字、透明方形厚玻璃罐、粉橘色霜、霧銀瓶蓋</div><div class="bty-fn">招牌 NCEF 複方（玻尿酸＋維他命＋胺基酸＋輔酶），概念是把醫美水光針做成擦的，主打緊緻提亮縮毛孔。要買認 Mat 霧面版配你出油 T 字。⚠️ 但價格是 Caudalie 兩三倍，你 A 醛已扛抗老主力，逛到超心動再說。</div><div class="bty-foot"><span class="bty-price">€50–70</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Filorga+NCEF-Reverse+cream" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="3"><label class="bty-check"><input type="checkbox" data-k="sorbet"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:CAUDALIE">#7A4E7E</span><span class="bty-zone">（可略）日間保濕</span></div><div class="bty-name">Vinosource-Hydra Sorbet 冰淇淋霜 <span class="bty-fr">葡萄籽水瑩保濕凝乳</span></div><div class="bty-pkg">📦 認明 Sorbet 字樣、抹開化水無油感</div><div class="bty-fn">葡萄籽多酚＋玻尿酸，凝乳質地清爽補水。但你已經有 AESTURA 舒緩霜做同樣的事，功能重疊，除非想試法式質地否則不用買。</div><div class="bty-foot"><span class="bty-price">€25</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Caudalie+Vinosource+Hydra+Sorbet" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-card" data-p="3"><label class="bty-check"><input type="checkbox" data-k="tisane"></label><div class="bty-body"><div class="bty-top"><span class="bty-sw" style="background:CAUDALIE">#7A4E7E</span><span class="bty-zone">（可略）抗老晚霜</span></div><div class="bty-name">Crème Tisane de Nuit 晚霜 <span class="bty-fr">白藜蘆醇提拉緊緻晚霜</span></div><div class="bty-pkg">📦 矮胖圓形霧粉色玻璃罐＋白蓋</div><div class="bty-fn">主打植物性 A 醇替代。但你晚上已經有寶拉高效 A 醛在做抗老主力，這罐功能重疊，不用買。</div><div class="bty-foot"><span class="bty-price">€45</span><a class="bty-photo" href="https://www.google.com/search?tbm=isch&amp;q=Caudalie+Creme+Tisane+de+Nuit" target="_blank" rel="noopener">📷 看照片</a></div></div></div><div class="bty-phrase">🗣️ <b>店裡實用法文</b><br>要試用包：<b>Est-ce que je peux avoir un échantillon ?</b><br>（我可以要一個試用包嗎？敏感肌單品先討小樣試擦，避免買回去雙頰不合）<br>找某產品：<b>Vous avez le Cicabio de Bioderma ?</b>（你們有貝膚黛瑪的 Cicabio 嗎？）</div>
+</div></div>
+<script>
+(function(){var K="sf2026_beauty",s={};try{s=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+document.querySelectorAll("#v-beauty input[type=checkbox]").forEach(function(cb){var k=cb.getAttribute("data-k");var card=cb.closest(".bty-card");if(s[k]){cb.checked=true;card.classList.add("done");}cb.addEventListener("change",function(){card.classList.toggle("done",cb.checked);s[k]=cb.checked;localStorage.setItem(K,JSON.stringify(s));});});})();
+</script>
 
 <script>
 function sp(s){return String(s).replace(/([\u4e00-\u9fff\u3400-\u4dbf])([A-Za-z0-9€$@#(])/g,'$1 $2').replace(/([A-Za-z0-9€$@#%\)])(?![\s,.\-])([\u4e00-\u9fff\u3400-\u4dbf])/g,'$1 $2');}
